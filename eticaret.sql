@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: localhost
--- Üretim Zamanı: 24 Nis 2021, 08:28:25
+-- Üretim Zamanı: 30 Nis 2021, 12:41:23
 -- Sunucu sürümü: 8.0.18
 -- PHP Sürümü: 7.3.11
 
@@ -30,11 +30,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `uye` (
   `id` bigint(20) NOT NULL,
-  `ad` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `soyad` varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
-  `eposta` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `sifre` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `tur` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'normal'
+  `ad` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `soyad` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `eposta` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `sifre` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tur` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'normal'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `uye` (
 
 INSERT INTO `uye` (`id`, `ad`, `soyad`, `eposta`, `sifre`, `tur`) VALUES
 (1, 'ufuk', 'çelik', 'ucelik@mail.com', '123', 'normal'),
-(2, 'Adnan', 'ESKİ', 'aeski@mail.com', '123', 'normal');
+(2, 'Ahmet', 'BABAOĞLU', 'ababa@mail.com', '123456', 'normal');
 
 --
 -- Dökümü yapılmış tablolar için indeksler
