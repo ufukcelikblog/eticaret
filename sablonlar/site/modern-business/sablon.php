@@ -8,11 +8,13 @@
     require SITE_SABLON . '/navigation.php';
     ?>
     <!-- Page Content -->
-  <div class="container">
-    <?php
-    require $icerik;
-    ?>
-  </div>
+    <div class="container">
+
+      <?php
+      require $icerik;
+      ?>
+
+    </div>
   <!-- /.container -->
 
   <?php

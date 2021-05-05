@@ -12,13 +12,13 @@ if ($_SESSION["login"] != "tamam") {
     $sorgu = $bag->prepare("UPDATE uye SET ad=:yad, soyad=:ysoyad, sifre=:ysifre WHERE id='{$id}'");
     $sonuc = $sorgu->execute(array("yad" => $ad, "ysoyad" => $soyad, "ysifre" => $sifre));
     if ($sonuc) {
-      $mesaj = "Güncelleme Başarılı";
+      $mesaj = "Güncelleme başarılı";
       $_SESSION["login"] = "tamam";
       $_SESSION["ad"] = $ad;
       $_SESSION["soyad"] = $soyad;
       $_SESSION["sifre"] = $sifre;
     } else {
-      $mesaj = "Güncellemede bir sorun oluştu!";
+      $mesaj = "Güncellemede hata oluştu! Lütfen tekrar deneyiniz...";
     }
   }
   ?>
@@ -42,7 +42,7 @@ if ($_SESSION["login"] != "tamam") {
       <strong>MESAJ : </strong> <?php echo $mesaj; ?>
     </div>
     <?php
-    if ($mesaj == "Güncelleme Başarılı") {
+    if ($mesaj == "Güncelleme başarılı") {
       ?>
       <script>
         setInterval(
@@ -55,6 +55,7 @@ if ($_SESSION["login"] != "tamam") {
     }
   }
   ?>
+
   <div class="row">
     <div class="col-12">
       <div class="card">
@@ -65,36 +66,37 @@ if ($_SESSION["login"] != "tamam") {
           <div class="border border-lg rounded shadow-sm">
             <form class="form-horizontal" action="" method="post">
               <div class="p-4 border-bottom">
-                <div class="form-group">
-                  <label class="control-label col-sm-2" for="ad">Ad:</label>
-                  <div class="col-sm-12">
-                    <input class="form-control" type="text" name="ad" value="<?php echo $_SESSION["ad"]; ?>" required>	
+                <div class="tab-content">     
+                  <div class="form-group">
+                    <label class="control-label col-sm-2" for="ad">Ad:</label>
+                    <div class="col-sm-12">
+                      <input class="form-control" type="text" name="ad" value="<?php echo $_SESSION["ad"]; ?>" required>	
+                    </div>
                   </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label col-sm-2" for="ad">Soyad:</label>
-                  <div class="col-sm-12">
-                    <input class="form-control" type="text" name="soyad" value="<?php echo $_SESSION["soyad"]; ?>" required>	
+                  <div class="form-group">
+                    <label class="control-label col-sm-2" for="ad">Soyad:</label>
+                    <div class="col-sm-12">
+                      <input class="form-control" type="text" name="soyad" value="<?php echo $_SESSION["soyad"]; ?>" required>	
+                    </div>
                   </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label col-sm-2" for="sifre">Şifre:</label>
-                  <div class="col-sm-12">
-                    <input class="form-control" type="password" name="sifre" value="<?php echo $_SESSION["sifre"]; ?>" required>	
+                  <div class="form-group">
+                    <label class="control-label col-sm-2" for="sifre">Şifre:</label>
+                    <div class="col-sm-12">
+                      <input class="form-control" type="password" name="sifre" value="<?php echo $_SESSION["sifre"]; ?>" required>	
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="form-actions bg-light p-4 small">
                 <button type="submit" class="btn btn-success btn-block" name="guncelle">GÜNCELLE</button>
-              </div>
+              </div>	
             </form>
           </div>
         </div>
       </div>
     </div>
-
   </div>
-
 
   <?php
 }
+?>

@@ -7,6 +7,7 @@ if ($_SESSION["login"] != "tamam") {
   <h1 class="mt-4 mb-3">E-Ticaret Sitesi
     <small>Üyelik Bilgileri</small>
   </h1>
+
   <ol class="breadcrumb">
     <li class="breadcrumb-item active">
       <a href="index.php">Anasayfa</a>
@@ -45,14 +46,13 @@ if ($_SESSION["login"] != "tamam") {
               <input class="form-control" type="text" value="<?php echo $_SESSION["sifre"]; ?>" disabled>	
             </div>
           </div>
-        </div>  
+        </div>
         <div class="bg-light p-4 small">
           <a href="index.php?sayfa=uyelik_guncelle" class="btn btn-warning btn-block" role="button">Üyelik Güncelle</a>
         </div>
       </div>
     </div>
   </div>
-
 
   <?php
 }

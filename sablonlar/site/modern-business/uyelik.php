@@ -1,9 +1,8 @@
 <?php
 if ($_SESSION["login"] == "tamam") {
-  header("Location: index.php?sayfa=anasayfa");
+  header("Location: index.php");
 } else {
   $mesaj = "";
-
   if (isset($_POST["kayit"])) {
     $ad = $_POST["ad"];
     $soyad = $_POST["soyad"];
@@ -27,16 +26,16 @@ if ($_SESSION["login"] == "tamam") {
     $sifre = $_POST["sifre"];
     $sorgu = $bag->prepare("SELECT * FROM uye WHERE eposta = ? AND sifre = ?");
     $sorgu->execute(array($eposta, $sifre));
-    $sonuc = $sorgu->fetch();
-    if ($sonuc) {
+    $kategoriler = $sorgu->fetch();
+    if ($kategoriler) {
       $mesaj = "Giriş Başarılı";
       $_SESSION["login"] = "tamam";
-      $_SESSION["id"] = $sonuc["id"];
-      $_SESSION["ad"] = $sonuc["ad"];
-      $_SESSION["soyad"] = $sonuc["soyad"];
-      $_SESSION["eposta"] = $sonuc["eposta"];
-      $_SESSION["sifre"] = $sonuc["sifre"];
-      $_SESSION["tur"] = $sonuc["tur"];
+      $_SESSION["id"] = $kategoriler["id"];
+      $_SESSION["ad"] = $kategoriler["ad"];
+      $_SESSION["soyad"] = $kategoriler["soyad"];
+      $_SESSION["eposta"] = $kategoriler["eposta"];
+      $_SESSION["sifre"] = $kategoriler["sifre"];
+      $_SESSION["tur"] = $kategoriler["tur"];
     } else {
       $mesaj = "Hatalı e-posta veya şifre !";
     }
@@ -53,14 +52,13 @@ if ($_SESSION["login"] == "tamam") {
       mail($eposta, $konu, $mesaj, "From: $eposta");
       $mesaj = "Şifreniz e-posta adresinize gönderilmiştir.";
     } else {
-      $mesaj = "Hatalı e-posta veya şifre!";
+      $mesaj = "Hatalı e-posta!";
     }
   }
   ?>
-
   <!-- Page Heading/Breadcrumbs -->
-  <h1 class="mt-4 mb-3">E-Ticaret
-    <small>Sitesi</small>
+  <h1 class="mt-4 mb-3">E-Ticaret Sitesi
+    <small><?php echo $baslik; ?></small>
   </h1>
 
   <ol class="breadcrumb">
@@ -74,7 +72,7 @@ if ($_SESSION["login"] == "tamam") {
   <?php
   if ($mesaj != "") {
     ?>
-    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+    <div class="alert alert-primary text-center fade show" role="alert">
       <strong>MESAJ : </strong> <?php echo $mesaj; ?>
     </div>
     <?php
@@ -83,7 +81,7 @@ if ($_SESSION["login"] == "tamam") {
       <script>
         setInterval(
                 function () {
-                  window.location.href = "index.php?sayfa=anasayfa";
+                  window.location.href = "index.php";
                 }, 2000
                 );
       </script>
@@ -114,30 +112,30 @@ if ($_SESSION["login"] == "tamam") {
               <form class="form-horizontal" action="" method="post">
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="ad">Ad:</label>
-                  <div class="col-sm-10">
+                  <div class="col-sm-12">
                     <input class="form-control" type="text" name="ad" placeholder="adınızı yazınız" required>	
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="ad">Soyad:</label>
-                  <div class="col-sm-10">
+                  <div class="col-sm-12">
                     <input class="form-control" type="text" name="soyad" placeholder="soyadınızı yazınız" required>	
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="eposta">E-posta:</label>
-                  <div class="col-sm-10">
+                  <div class="col-sm-12">
                     <input class="form-control" type="email" name="eposta" placeholder="geçerli bir e-posta yazınız" required>	
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="sifre">Şifre:</label>
-                  <div class="col-sm-10">
+                  <div class="col-sm-12">
                     <input class="form-control" type="password" name="sifre" placeholder="şifrenizi yazınız" required>	
                   </div>
                 </div>
                 <div class="form-actions">
-                  <button type="submit" class="btn btn-success" name="kayit">KAYDOL</button>
+                  <button type="submit" class="btn btn-primary btn-block" name="kayit">KAYDOL</button>
                 </div>	
               </form>
             </div>
@@ -145,18 +143,18 @@ if ($_SESSION["login"] == "tamam") {
               <form class="form-horizontal" action="" method="post">
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="eposta">E-posta:</label>
-                  <div class="col-sm-10">
+                  <div class="col-sm-12">
                     <input class="form-control" type="email" name="eposta" placeholder="e-posta adresinizi yazınız" required>	
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="sifre">Şifre:</label>
-                  <div class="col-sm-10">
+                  <div class="col-sm-12">
                     <input class="form-control" type="password" name="sifre" placeholder="şifrenizi yazınız" required>	
                   </div>
                 </div>
                 <div class="form-actions">
-                  <button type="submit" class="btn btn-success" name="giris">GİRİŞ</button>
+                  <button type="submit" class="btn btn-primary btn-block" name="giris">GİRİŞ</button>
                 </div>
               </form>
             </div>
@@ -164,12 +162,12 @@ if ($_SESSION["login"] == "tamam") {
               <form class="form-horizontal" action="" method="post">
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="eposta">E-posta:</label>
-                  <div class="col-sm-10">
+                  <div class="col-sm-12">
                     <input class="form-control" type="email" name="eposta" placeholder="kayıtlı olduğunuz e-posta adresinizi yazınız" required>	
                   </div>
                 </div>
                 <div class="form-actions">
-                  <button type="submit" class="btn btn-success" name="unutma">GÖNDER</button>
+                  <button type="submit" class="btn btn-primary btn-block" name="unutma">GÖNDER</button>
                 </div>
               </form>
             </div>
@@ -178,7 +176,7 @@ if ($_SESSION["login"] == "tamam") {
       </div>
     </div>
   </div>
+
   <?php
 }
-
-
+?>

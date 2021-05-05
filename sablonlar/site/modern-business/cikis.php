@@ -1,7 +1,7 @@
 <?php
 session_destroy();
+$_SESSION[] = array();
 ?>
-
 <div class="jumbotron">
   <div class='alert alert-success text-center'>Başarıyla ÇIKIŞ yaptınız</div>
   <script>
