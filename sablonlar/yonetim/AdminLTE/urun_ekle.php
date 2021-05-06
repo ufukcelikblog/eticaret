@@ -21,12 +21,14 @@
   <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
-
       <div class="col-md-12">
         <div class="card card-default">
           <div class="card-header">
             <h3 class="card-title">Yeni Ürün</h3>
           </div>
+          <?php
+            //print_r(kategoriDizisi($kategoriler));
+          ?>
           <!-- form start -->
           <form method="post" action="">
             <div class="card-body">
@@ -35,10 +37,8 @@
                 <select name="kategori" class="form-control">
                   <option value="0">YOK</option>
                   <?php
-                  foreach ($kategoriler as $kategori) {
-                    $secilmeDurum = $kust == $kategori["id"] ? "selected" : "";
-                    echo '<option value="' . $kategori["id"] . '" ' . $secilmeDurum . '>' . $kategori["ustkategori"] . ' -> ' . $kategori["isim"] .'</option>';
-                  }
+                  //echo kategoriOptionOlustur(kategoriDizisi($kategoriler));
+                  echo altKategoriler();
                   ?>
                 </select>
               </div>

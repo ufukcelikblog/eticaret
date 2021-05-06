@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: localhost
--- Üretim Zamanı: 04 May 2021, 22:11:08
+-- Üretim Zamanı: 05 May 2021, 22:57:14
 -- Sunucu sürümü: 8.0.18
 -- PHP Sürümü: 7.3.11
 
@@ -39,7 +39,18 @@ CREATE TABLE `kategori` (
 --
 
 INSERT INTO `kategori` (`id`, `ustkategori`, `isim`) VALUES
-(4, 2, 'android');
+(1, 0, 'bilgisayar'),
+(2, 1, 'dizüstü'),
+(3, 1, 'masaüstü'),
+(4, 3, 'windows'),
+(5, 3, 'macintosh'),
+(6, 3, 'linux'),
+(7, 2, 'windows'),
+(8, 2, 'macintosh'),
+(9, 2, 'linux'),
+(10, 1, 'çevre birimleri'),
+(11, 1, 'dahili birimler'),
+(12, 0, 'otomobil');
 
 -- --------------------------------------------------------
 
@@ -51,9 +62,9 @@ CREATE TABLE `urun` (
   `id` bigint(20) NOT NULL,
   `kategori_id` bigint(20) NOT NULL,
   `isim` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `aciklama` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `fiyat` decimal(10,2) NOT NULL,
-  `durum` varchar(100) COLLATE utf8mb4_general_ci NOT NULL
+  `durum` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `aciklama` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -147,7 +158,7 @@ ALTER TABLE `uye`
 -- Tablo için AUTO_INCREMENT değeri `kategori`
 --
 ALTER TABLE `kategori`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `urun`
