@@ -52,7 +52,7 @@ function kategoriOptionOlustur(array $kategoriDizisi, $bosluk = false, $seviye =
   return $sonuc;
 }
 
-function altKategoriler($ustID = 0, $ustIsim = "Ana Kategori") {
+function altKategoriler($ustID = 0, $isimler = "", $secilenID = 0) {
   global $bag;
   $sorgu = $bag->prepare("SELECT * FROM kategori WHERE ustkategori ='{$ustID}'");
   $sorgu->execute();
@@ -60,10 +60,61 @@ function altKategoriler($ustID = 0, $ustIsim = "Ana Kategori") {
 
   $sonuc = "";
   foreach ($kategoriler as $kategori) {
-    $altIsim = $ustIsim;
-    $sonuc .= "<option value='" . $kategori["id"] . "'>" . $altIsim . " > " . $kategori["isim"] . "</option>";
-    $altIsim .= " > " . $kategori["isim"];
-    $sonuc .= altKategoriler($ustID = $kategori["id"], $altIsim);
+    $altIsimler = $isimler;
+    $secilmeDurum = $secilenID == $kategori["id"] ? "selected" : "";
+    $sonuc .= "<option value='" . $kategori["id"] . "' " . $secilmeDurum . ">" . $altIsimler . " > " . $kategori["isim"] . "</option>";
+    $altIsimler .= " > " . $kategori["isim"];
+    $sonuc .= altKategoriler($kategori["id"], $altIsimler, $secilenID);
+  }
+  return $sonuc;
+}
+
+function ustKategoriIsim($kategoriID) {
+  global $bag;
+  $isim = "";
+  if ($kategoriID == 0) {
+    $isim = "YOK";
+  } else {
+    $ustSorgu = $bag->prepare("SELECT * FROM kategori WHERE id=?");
+    $ustSorgu->execute([$kategoriID]);
+    $ustSorguSonuc = $ustSorgu->fetch();
+    $isim = $ustSorguSonuc["isim"];
+  }
+  return $isim;
+}
+
+function kategoriTablosu($ustID = 0, $isimler = "") {
+  global $bag;
+  $sorgu = $bag->prepare("SELECT * FROM kategori WHERE ustkategori ='{$ustID}'");
+  $sorgu->execute();
+  $kategoriler = $sorgu->fetchAll();
+
+  //$sonuc = array();
+  foreach ($kategoriler as $kategori) {
+    $altIsimler = $isimler;
+    $kayit["id"] = $kategori["id"];
+    $kayit["kategori"] = $altIsimler;
+    $kayit["ustkategori"] = $kategori["ustkategori"];          
+    $sonuc[] = array("id" => $kategori["id"], "kategori" => $altIsimler, "ustkategori" => $kategori["ustkategori"]);
+    //$sonuc[] = $kayit;
+    $altIsimler .= " > " . $kategori["isim"];
+    kategoriTablosu($kategori["id"], $altIsimler);
+  }
+  return $sonuc;
+}
+
+function altKategorilerT($ustID = 0, $isimler = "") {
+  global $bag;
+  $sorgu = $bag->prepare("SELECT * FROM kategori WHERE ustkategori ='{$ustID}'");
+  $sorgu->execute();
+  $kategoriler = $sorgu->fetchAll();
+
+  $sonuc = "";
+  foreach ($kategoriler as $kategori) {
+    $altIsimler = $isimler;
+    $sonuc .= "<option value='" . $kategori["id"] . "'>" . $altIsimler . " > " . $kategori["isim"] . "</option>";
+    $altIsimler .= " > " . $kategori["isim"];
+    $sonuc .= altKategoriler($ustID = $kategori["id"], $altIsimler);
   }
   return $sonuc;
 }

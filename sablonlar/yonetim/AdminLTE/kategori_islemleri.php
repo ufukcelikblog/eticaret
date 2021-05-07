@@ -101,6 +101,7 @@ if ($_SESSION["admin_login"] != "tamam") {
           <?php
         }
         ?>
+        
         <div class="row">
           <div class="col-md-6">
             <div class="card card-default">
@@ -120,10 +121,7 @@ if ($_SESSION["admin_login"] != "tamam") {
                     <select name="ustkategori" class="form-control">
                       <option value="0">YOK</option>
                       <?php
-                      foreach ($kategoriler as $kategori) {
-                        $secilmeDurum = $kust == $kategori["id"] ? "selected" : "";
-                        echo '<option value="' . $kategori["id"] . '" ' . $secilmeDurum . '>' . $kategori["isim"] . '</option>';
-                      }
+                      echo altKategoriler(null, null, $kust);
                       ?>
                     </select>
                   </div>
@@ -169,23 +167,11 @@ if ($_SESSION["admin_login"] != "tamam") {
                     </tr>
                   </thead>
                   <tbody>
-                    <?php foreach ($kategoriler as $kategori): ?>
+                    <?php foreach (kategoriTablosu() as $kategori): ?>
                       <tr>
                         <td><?= $kategori["id"] ?></td>
-                        <td>
-                          <?php
-                          $ustkategoriID = $kategori["ustkategori"];
-                          if ($ustkategoriID == "0") {
-                            echo "YOK";
-                          } else {
-                            $sorgu = $bag->prepare("SELECT * FROM kategori WHERE id=?");
-                            $sorgu->execute([$ustkategoriID]);
-                            $ustkategori = $sorgu->fetch();
-                            echo $ustkategori["isim"];
-                          }
-                          ?>
-                        </td>
-                        <td><?= $kategori["isim"] ?></td>
+                        <td><?= $kategori["ustkategori"] ?></td>
+                        <td><?= $kategori["kategori"] ?></td>
                         <td class="text-center">
                           <a href="index.php?sayfa=kategori_islemleri&islem=guncellemeBaslat&id=<?= $kategori['id'] ?>&ustkategori=<?= $kategori['ustkategori'] ?>&isim=<?= $kategori['isim'] ?>">
                             <button class="btn btn-info btn-xs">
