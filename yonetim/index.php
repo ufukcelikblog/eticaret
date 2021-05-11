@@ -13,17 +13,13 @@ switch ($sayfa) {
     $baslik = "Giriş";
     $icerik = 'giris.php';
     break;
-  case 'urun_islemleri' :
-    $baslik = "Ürün İşlemleri";
-    $icerik = 'urun_islemleri.php';
+  case 'cikis' :
+    $baslik = "Çıkış";
+    $icerik = 'cikis.php';
     break;
   case 'kategori_islemleri' :
     $baslik = "Kategori İşlemleri";
     $icerik = 'kategori_islemleri.php';
-    break;
-  case 'cikis' :
-    $baslik = "Çıkış";
-    $icerik = 'cikis.php';
     break;
   default :
     $baslik = "Anasayfa";

@@ -3,78 +3,96 @@ if ($_SESSION["admin_login"] != "tamam") {
   header("Location: index.php?sayfa=giris");
 } else {
   $mesaj = "";
-  $buttonText = "EKLE";
   $islemBaslik = "Yeni Kategori";
+  $buttonText = "EKLE";
   $islem = (isset($_GET['islem']) && $_GET['islem'] != '') ? $_GET['islem'] : '';
-  $kid = (isset($_GET['id']) && $_GET['id'] != '') ? $_GET['id'] : '';
-  $kust = (isset($_GET['ustkategori']) && $_GET['ustkategori'] != '') ? $_GET['ustkategori'] : '';
-  $kisim = (isset($_GET['isim']) && $_GET['isim'] != '') ? $_GET['isim'] : '';
+  $id = (isset($_GET['id']) && $_GET['id'] != '') ? $_GET['id'] : '';
+  $isim = (isset($_GET['isim']) && $_GET['isim'] != '') ? $_GET['isim'] : '';
+  $ust_id = (isset($_GET['ust_id']) && $_GET['ust_id'] != '') ? $_GET['ust_id'] : '';
   switch ($islem) {
-    case "sil":
-      $sorgu = "DELETE FROM kategori WHERE id = '{$kid}'";
+    case "silme" :
+      $sorgu = "DELETE FROM kategori WHERE id='{$id}'";
       $silme = $bag->prepare($sorgu);
       $silme->execute();
       if ($silme->rowCount() > 0) {
         $mesaj = "Silme işlemi gerçekleşti";
       } else {
-        $mesaj = "Silme işleminde problem oldu!!!";
+        $mesaj = "Silme işleminde bir problem var!!!";
       }
       break;
-    case "ekle":
+    case "ekleme":
       $islemBaslik = "Yeni Kategori";
-      $sorgu = "SELECT COUNT(*) FROM kategori WHERE ustkategori='{$kust}' AND isim='{$kisim}'";
+      $sorgu = "SELECT COUNT(*) FROM kategori WHERE isim='{$isim}' AND ust_id='{$ust_id}'";
       $adet = $bag->query($sorgu)->fetchColumn();
       if ($adet > 0) {
         $mesaj = "Bu kategori daha önce oluşturulmuş!!!";
       } else {
-        $sorgu = $bag->prepare("INSERT INTO kategori(ustkategori, isim) VALUES(?,?)");
-        $sorgu->execute(array($kust, $kisim));
+        $kayit = $bag->query("SELECT * FROM kategori WHERE id='{$ust_id}'")->fetch(PDO::FETCH_ASSOC);
+        if ($kayit) {
+          $ust_isim = $kayit["ust_isim"] . " > " . $kayit["isim"];
+        } else {
+          $ust_isim = " ";
+        }
+        $sorgu = $bag->prepare("INSERT INTO kategori(isim, ust_id, ust_isim) VALUES(?,?,?)");
+        $sorgu->execute(array($isim, $ust_id, $ust_isim));
         $mesaj = "Yeni bir kategori eklendi...";
+      }
+      unset($id);
+      unset($ust_id);
+      unset($isim);
+      break;
+    case "guncellemeBaslat":
+      if ($id != '' && $isim != '' && $ust_id != '') {
+        $islem = "guncellemeYap";
+        $islemBaslik = "Kategori Güncelleme";
+        $buttonText = "GÜNCELLE";
+      } else {
+         $mesaj = "Güncelleme için veriler eksik !!!";
       }
       break;
     case "guncellemeYap":
-      if ($kid != '' && $kust != '' && $kisim != '') {
-        $sorgu = $bag->prepare("UPDATE kategori SET ustkategori=:yust, isim=:yisim WHERE id = '{$kid}'");
-        $sonuc = $sorgu->execute(array("yust" => $kust, "yisim" => $kisim));
+      if ($id != '' && $isim != '' && $ust_id != '') {
+        $kayit = $bag->query("SELECT * FROM kategori WHERE id='{$ust_id}'")->fetch(PDO::FETCH_ASSOC);
+        $ust_isim = $kayit ? $kayit["ust_isim"] . " > " . $kayit["isim"] : " ";
+        $sorgu = $bag->prepare("UPDATE kategori "
+                . "SET isim=:yisim, ust_id=:yust_id, ust_isim=:yust_isim "
+                . "WHERE id = '{$id}'");
+        $sonuc = $sorgu->execute(array("yisim" => $isim, "yust_id" => $ust_id, "yust_isim" => $ust_isim));
         if ($sonuc) {
           $mesaj = "Güncelleme işlemi gerçekleşti";
         } else {
           $mesaj = "Güncelleme işleminde bir hata oluştu";
         }
       } else {
-        $mesaj = "Güncelleme işleminde eksik veri var!";
+         $mesaj = "Güncelleme için veriler eksik !!!";
       }
-      $islem = "ekle";
+      $islem = "ekleme";
       $islemBaslik = "Yeni Kategori";
-      $kid = '';
-      $kust = '';
-      $kisim = '';
+      unset($id);
+      unset($ust_id);
+      unset($isim);
       break;
-    case "guncellemeBaslat":
-      if ($kid != '' && $kust != '' && $kisim != '') {
-        $islem = "guncellemeYap";
-        $islemBaslik = "Kategori Güncelleme";
-        $buttonText = "GÜNCELLE";
-      } else {
-        $mesaj = "Güncelleme için veriler eksik !!!";
-      }
-      break;
-    default :
+    default:
       $buttonText = "EKLE";
       $islemBaslik = "Yeni Kategori";
-      $islem = "ekle";
+      $islem = "ekleme";
       break;
   }
-
-  $sorgu = $bag->prepare("SELECT * FROM kategori ORDER BY id DESC");
-  $sorgu->execute();
-  $kategoriler = $sorgu->fetchAll();
   ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
+        <?php
+        if ($mesaj != "") {
+          ?>
+          <div class="alert alert-primary text-center fade show" role="alert">
+            <strong>MESAJ : </strong> <?php echo $mesaj; ?>
+          </div>
+          <?php
+        }
+        ?>        
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1>Kategori İşlemleri</h1>
@@ -92,36 +110,33 @@ if ($_SESSION["admin_login"] != "tamam") {
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        <?php
-        if ($mesaj != "") {
-          ?>
-          <div class="alert alert-primary text-center fade show" role="alert">
-            <strong>MESAJ : </strong> <?php echo $mesaj; ?>
-          </div>
-          <?php
-        }
-        ?>
-        
         <div class="row">
           <div class="col-md-6">
-            <div class="card card-default">
+            <div class="card card-primary">
               <div class="card-header">
                 <h3 class="card-title"><?php echo $islemBaslik; ?></h3>
               </div>
               <!-- form start -->
-              <form method="get" action="">                  
+              <form method="get" action="">  
                 <div class="card-body">
                   <div class="form-group">
                     <input type="hidden" name="sayfa" class="form-control" value="kategori_islemleri"/>
-                    <input type="hidden" name="islem" class="form-control" value="<?php echo $islem; ?>"/>
-                    <input type="hidden" name="id" class="form-control" value="<?php echo $kid; ?>"/>  
+                    <input type="hidden" name="islem" class="form-control" value="<?= $islem ?>"/>
+                    <input type="hidden" name="id" class="form-control" value="<?= $id ?>"/>  
                   </div>
+                  <!-- /.form-group -->
                   <div class="form-group">
                     <label>Üst Kategori</label>
-                    <select name="ustkategori" class="form-control">
+                    <select name="ust_id" class="form-control">
                       <option value="0">YOK</option>
                       <?php
-                      echo altKategoriler(null, null, $kust);
+                      $kategoriler_AZ = $bag->query("SELECT * FROM kategori", PDO::FETCH_ASSOC);
+                      foreach ($kategoriler_AZ as $kategori):
+                        $secilmeDurum = $ust_id == $kategori["id"] ? "selected" : "";
+                        ?>
+                        <option value="<?= $kategori['id'] ?>" <?= $secilmeDurum ?> > <?= $kategori["ust_isim"] . " > " . $kategori["isim"] ?> </option>
+                        <?php
+                      endforeach;
                       ?>
                     </select>
                   </div>
@@ -131,66 +146,73 @@ if ($_SESSION["admin_login"] != "tamam") {
                     <input type="text" name="isim" class="form-control" 
                     <?php
                     if ($islem == "guncellemeYap") {
-                      echo 'value="' . $kisim . '"';
+                      echo 'value="' . $isim . '"';
                     } else {
-                      echo 'placeholder="Kategori ismi giriniz" required';
+                      echo "placeholder='kategori ismi giriniz' required";
                     }
                     ?>
-                           >
+                           />
                   </div>
+                  <!-- /.form-group -->
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary"><?php echo $buttonText; ?></button>
+                  <button type="submit" class="btn btn-primary btn-block"><?php echo $buttonText; ?></button>
                 </div>
               </form>
+              <!-- form end -->
             </div>
             <!-- /.card -->
           </div>
           <div class="col-md-6">
-            <div class="card">
+            <div class="card card-secondary">
               <div class="card-header">
                 <h3 class="card-title">Kategoriler Tablosu</h3>
-                <div class="card-tools">
-
-                </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0" style="height: 300px;">
                 <table class="table table-head-fixed text-nowrap">
                   <thead>
                     <tr>
+                      <th class="text-center">İŞLEMLER</th>
                       <th>ID</th>
                       <th>Üst Kategori</th>
                       <th>İsim</th>
-                      <th class="text-center">İŞLEMLER</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <?php foreach (kategoriTablosu() as $kategori): ?>
+                    <?php
+                    $kategoriler_ZA = $bag->query("SELECT * FROM kategori ORDER BY id DESC", PDO::FETCH_ASSOC);
+                    foreach ($kategoriler_ZA as $kategori):
+                      ?>
                       <tr>
-                        <td><?= $kategori["id"] ?></td>
-                        <td><?= $kategori["ustkategori"] ?></td>
-                        <td><?= $kategori["kategori"] ?></td>
-                        <td class="text-center">
-                          <a href="index.php?sayfa=kategori_islemleri&islem=guncellemeBaslat&id=<?= $kategori['id'] ?>&ustkategori=<?= $kategori['ustkategori'] ?>&isim=<?= $kategori['isim'] ?>">
+                        <td> 
+                          <a href="index.php?sayfa=kategori_islemleri&islem=guncellemeBaslat&id=<?= $kategori['id'] ?>&isim=<?= $kategori['isim'] ?>&ust_id=<?= $kategori['ust_id'] ?>">
                             <button class="btn btn-info btn-xs">
                               <i class="fas fa-pencil-alt"></i>
                               GÜNCELLE
                             </button>
                           </a>
-                          -
-                          <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-sil">
+                          -                                                             
+                          <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-sil">
                             <i class="fas fa-trash"></i>
                             SİL
                           </button>
                         </td>
+                        <td><?= $kategori["id"] ?></td>
+                        <td>
+                          <?php
+                          echo $kategori["ust_id"] == 0 ? "YOK" : $kategori["ust_isim"];
+                          ?>
+                        </td>
+                        <td><?= $kategori["isim"] ?></td>
                       </tr>
-                    <?php endforeach; ?>
+                      <?php
+                    endforeach;
+                    ?>
                   </tbody>
                 </table>
               </div>
-              <!-- /.card-body -->
             </div>
             <!-- /.card -->
           </div>
@@ -213,7 +235,7 @@ if ($_SESSION["admin_login"] != "tamam") {
                 <i class="fas fa-undo"></i>
                 Vazgeç
               </button>
-              <a href="index.php?sayfa=kategori_islemleri&islem=sil&id=<?= $kategori['id'] ?>">
+              <a href="index.php?sayfa=kategori_islemleri&islem=silme&id=<?= $kategori['id'] ?>">
                 <button type="button" class="btn btn-outline-light">
                   <i class="fas fa-trash"></i>
                   SİL
