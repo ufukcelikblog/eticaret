@@ -47,7 +47,7 @@ if ($_SESSION["admin_login"] != "tamam") {
         $islemBaslik = "Kategori Güncelleme";
         $buttonText = "GÜNCELLE";
       } else {
-         $mesaj = "Güncelleme için veriler eksik !!!";
+        $mesaj = "Güncelleme için veriler eksik !!!";
       }
       break;
     case "guncellemeYap":
@@ -64,7 +64,7 @@ if ($_SESSION["admin_login"] != "tamam") {
           $mesaj = "Güncelleme işleminde bir hata oluştu";
         }
       } else {
-         $mesaj = "Güncelleme için veriler eksik !!!";
+        $mesaj = "Güncelleme için veriler eksik !!!";
       }
       $islem = "ekleme";
       $islemBaslik = "Yeni Kategori";
@@ -84,15 +84,6 @@ if ($_SESSION["admin_login"] != "tamam") {
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
-        <?php
-        if ($mesaj != "") {
-          ?>
-          <div class="alert alert-primary text-center fade show" role="alert">
-            <strong>MESAJ : </strong> <?php echo $mesaj; ?>
-          </div>
-          <?php
-        }
-        ?>        
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1>Kategori İşlemleri</h1>
@@ -110,6 +101,15 @@ if ($_SESSION["admin_login"] != "tamam") {
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
+        <?php
+        if ($mesaj != "") {
+          ?>
+          <div class="alert alert-warning text-center fade show" role="alert">
+            <strong>MESAJ : </strong> <?php echo $mesaj; ?>
+          </div>
+          <?php
+        }
+        ?>        
         <div class="row">
           <div class="col-md-6">
             <div class="card card-primary">
@@ -148,7 +148,7 @@ if ($_SESSION["admin_login"] != "tamam") {
                     if ($islem == "guncellemeYap") {
                       echo 'value="' . $isim . '"';
                     } else {
-                      echo "placeholder='kategori ismi giriniz' required";
+                      echo "placeholder='Kategori ismi giriniz' required";
                     }
                     ?>
                            />

@@ -21,6 +21,14 @@ switch ($sayfa) {
     $baslik = "Kategori İşlemleri";
     $icerik = 'kategori_islemleri.php';
     break;
+  case 'urun_islemleri' :
+    $baslik = "Ürün İşlemleri";
+    $icerik = 'urun_islemleri.php';
+    break;  
+  case 'urun_ozellikler' :
+    $baslik = "Ürün Özellikleri";
+    $icerik = 'urun_ozellikler.php';
+    break;  
   default :
     $baslik = "Anasayfa";
     $icerik = 'anasayfa.php';
