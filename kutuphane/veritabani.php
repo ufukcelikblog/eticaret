@@ -3,7 +3,7 @@
 $sunucu = "localhost";
 $veritabani = "eticaret";
 $kullanici = "root";
-$sifre = "root";
+$sifre = "mysql";
 
 try {
   $bag = new PDO("mysql:host=$sunucu;dbname=$veritabani", $kullanici, $sifre);

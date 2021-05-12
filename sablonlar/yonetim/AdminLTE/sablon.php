@@ -31,7 +31,14 @@ ob_start();
   <script src="<?php echo YONETIM_SABLON; ?>/dist/js/adminlte.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="<?php echo YONETIM_SABLON; ?>/dist/js/demo.js"></script>
-
+  <script type="text/javascript">
+      $('#modal-sil').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var link = button.data("href");
+        var modal = $(this);
+        modal.find(".modal-footer a").attr("href", link);
+      });
+  </script>
 </body>
 </html>
 <?php
