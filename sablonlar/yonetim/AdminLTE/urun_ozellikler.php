@@ -192,7 +192,7 @@ if ($_SESSION["admin_login"] != "tamam") {
                           </button>
                         </a>
                         -
-                        <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-sil">
+                        <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-sil" data-href="index.php?sayfa=urun_ozellik&islem=silme&id=<?= $ozellik['id'] ?>">
                           <i class="fas fa-trash"></i>
                           SİL
                         </button>
@@ -232,7 +232,7 @@ if ($_SESSION["admin_login"] != "tamam") {
                   <i class="fas fa-undo"></i>
                   Vazgeç
                 </button>
-                <a href="index.php?sayfa=urun_ozellik&islem=silme&id=<?= $ozellik['id'] ?>">
+                <a href="" id="modalLink">
                   <button type="button" class="btn btn-outline-light">
                     <i class="fas fa-trash"></i>
                     SİL
@@ -249,5 +249,13 @@ if ($_SESSION["admin_login"] != "tamam") {
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+  <script>
+      $('#modalSil').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var link = button.data("href");
+        var modal = $(this);
+        modal.find(".modal-footer a").attr("href", link);
+      });
+  </script>
   <?php
 }
