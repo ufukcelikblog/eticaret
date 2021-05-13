@@ -4,15 +4,12 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title><?php echo $baslik; ?></title>
+<title><?php echo $baslik; ?></title>
 
-  <!-- Bootstrap core CSS -->
-  <link href="<?php echo SITE_SABLON; ?>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="<?php echo SITE_SABLON; ?>/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"> 
-  <!-- Custom styles for this template -->
-  <link href="<?php echo SITE_SABLON; ?>/css/modern-business.css" rel="stylesheet"> 
-    
-  <!-- <script src="https://kit.fontawesome.com/aa3f00904d.js" crossorigin="anonymous"></script> -->
-      
+<!-- Font Awesome icons (free version)-->
+<script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
+<!-- Core theme CSS (includes Bootstrap)-->
+<link href="<?= SITE_SABLON ?>/css/styles.css" rel="stylesheet" />
+
 </head>
 

@@ -6,7 +6,9 @@
   <!-- /.container -->
 </footer>
 
-<!-- Bootstrap core JavaScript -->
-<script src="<?php echo SITE_SABLON; ?>/vendor/jquery/jquery.min.js"></script>
-<script src="<?php echo SITE_SABLON; ?>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap core JS-->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="<?= SITE_SABLON ?>/js/scripts.js"></script>
 
