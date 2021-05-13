@@ -221,14 +221,14 @@ if ($_SESSION["admin_login"] != "tamam") {
                           </button>
                         </a>
                         -
-                        <a href="index.php?sayfa=urun_ozellikler&urun_id=<?= $urun['id'] ?>&urun_isim=<?= $urun['isim'] ?>">
+                        <a href="index.php?sayfa=urun_ozellikleri&urun_id=<?= $urun['id'] ?>&urun_isim=<?= $urun['isim'] ?>">
                           <button class="btn btn-secondary btn-xs">
                             <i class="fas fa-list"></i>
                             ÖZELLİKLER
                           </button>
                         </a>
                         -
-                        <a href="index.php?sayfa=urun_resimler&id=<?= $urun['id'] ?>">
+                        <a href="index.php?sayfa=urun_resimleri&urun_id=<?= $urun['id'] ?>&urun_isim=<?= $urun['isim'] ?>">
                           <button class="btn btn-warning btn-xs">
                             <i class="fas fa-images"></i>
                             RESİMLER

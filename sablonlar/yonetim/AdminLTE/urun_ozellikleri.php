@@ -4,16 +4,17 @@ if ($_SESSION["admin_login"] != "tamam") {
 } else {
   $mesaj = "";
   $buttonText = "EKLE";
-  $islemBaslik = "Yeni Resim";
+  $islemBaslik = "Yeni Özellik";
   $islem = (isset($_GET['islem']) && $_GET['islem'] != '') ? $_GET['islem'] : '';
   $id = (isset($_GET['id']) && $_GET['id'] != '') ? $_GET['id'] : '';
   $urun_id = (isset($_GET['urun_id']) && $_GET['urun_id'] != '') ? $_GET['urun_id'] : '';
   $urun_isim = (isset($_GET['urun_isim']) && $_GET['urun_isim'] != '') ? $_GET['urun_isim'] : '';
-  $dosya = (isset($_GET['dosya']) && $_GET['dosya'] != '') ? $_GET['dosya'] : '';
+  $isim = (isset($_GET['isim']) && $_GET['isim'] != '') ? $_GET['isim'] : '';
+  $bilgi = (isset($_GET['bilgi']) && $_GET['bilgi'] != '') ? $_GET['bilgi'] : '';
 
   switch ($islem) {
     case "silme":
-      $sorgu = "DELETE FROM urun_resim WHERE id = '{$id}'";
+      $sorgu = "DELETE FROM urun_ozellik WHERE id = '{$id}'";
       $silme = $bag->prepare($sorgu);
       $silme->execute();
       if ($silme->rowCount() > 0) {
@@ -23,12 +24,17 @@ if ($_SESSION["admin_login"] != "tamam") {
       }
       break;
     case "ekleme":
-      $islemBaslik = "Yeni Resim";
-      $dosya = "urun_" . $urun_id . "_" . $dosya;
-      $sorgu = $bag->prepare("INSERT INTO urun_resim(urun_id, dosya) VALUES(?,?)");
-      $sorgu->execute(array($urun_id, $dosya));
-      $mesaj = "Yeni bir resim eklendi...";
-      unset($id, $urun_id, $dosya);
+      $islemBaslik = "Yeni Özellik";
+      $sorgu = "SELECT COUNT(*) FROM urun_ozellik WHERE isim='{$isim}' AND urun_id='{$urun_id}'";
+      $adet = $bag->query($sorgu)->fetchColumn();
+      if ($adet > 0) {
+        $mesaj = "Bu özellik daha önce oluşturulmuş!!!";
+      } else {
+        $sorgu = $bag->prepare("INSERT INTO urun_ozellik(urun_id, isim, bilgi) VALUES(?,?,?)");
+        $sorgu->execute(array($urun_id, $isim, $bilgi));
+        $mesaj = "Yeni bir özellik eklendi...";
+      }
+      unset($id, $urun_id, $isim, $bilgi);
       break;
     case "guncellemeBaslat":
       if ($id != '' && $urun_id != '' && $isim != '' && $bilgi != '') {
@@ -102,7 +108,7 @@ if ($_SESSION["admin_login"] != "tamam") {
                 <div class="row">
                   <div class="col-md-12">
                     <div class="form-group">
-                      <input type="hidden" name="sayfa" class="form-control" value="urun_ozellikler"/>
+                      <input type="hidden" name="sayfa" class="form-control" value="urun_ozellikleri"/>
                       <input type="hidden" name="islem" class="form-control" value="<?php echo $islem; ?>"/>
                       <input type="hidden" name="urun_id" class="form-control" value="<?php echo $urun_id; ?>"/>  
                       <input type="hidden" name="id" class="form-control" value="<?php echo $id; ?>"/>  
@@ -179,14 +185,14 @@ if ($_SESSION["admin_login"] != "tamam") {
                     ?>
                     <tr>
                       <td class="text-center">
-                        <a href="index.php?sayfa=urun_ozellikler&islem=guncellemeBaslat&urun_id=<?= $ozellik['urun_id'] ?>&id=<?= $ozellik['id'] ?>&isim=<?= $ozellik['isim'] ?>&bilgi=<?= $ozellik['bilgi'] ?>&durum=<?= $urun['durum'] ?>&aciklama=<?= $urun['aciklama'] ?>">
+                        <a href="index.php?sayfa=urun_ozellikleri&islem=guncellemeBaslat&urun_id=<?= $ozellik['urun_id'] ?>&id=<?= $ozellik['id'] ?>&isim=<?= $ozellik['isim'] ?>&bilgi=<?= $ozellik['bilgi'] ?>&durum=<?= $urun['durum'] ?>&aciklama=<?= $urun['aciklama'] ?>">
                           <button class="btn btn-info btn-xs">
                             <i class="fas fa-pencil-alt"></i>
                             GÜNCELLEME
                           </button>
                         </a>
                         -
-                        <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-sil" data-href="index.php?sayfa=urun_ozellikler&islem=silme&id=<?= $ozellik['id'] ?>">
+                        <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-sil" data-href="index.php?sayfa=urun_ozellikleri&islem=silme&id=<?= $ozellik['id'] ?>">
                           <i class="fas fa-trash"></i>
                           SİL
                         </button>
