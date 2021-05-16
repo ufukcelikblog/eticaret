@@ -9,7 +9,7 @@ if ($_SESSION["admin_login"] != "tamam") {
   $id = (isset($_GET['id']) && $_GET['id'] != '') ? $_GET['id'] : '';
   $urun_id = (isset($_GET['urun_id']) && $_GET['urun_id'] != '') ? $_GET['urun_id'] : '';
   $urun_isim = (isset($_GET['urun_isim']) && $_GET['urun_isim'] != '') ? $_GET['urun_isim'] : '';
-  $isim = (isset($_GET['isim']) && $_GET['isim'] != '') ? $_GET['isim'] : '';
+  $ozellik = (isset($_GET['ozellik']) && $_GET['ozellik'] != '') ? $_GET['ozellik'] : '';
   $bilgi = (isset($_GET['bilgi']) && $_GET['bilgi'] != '') ? $_GET['bilgi'] : '';
 
   switch ($islem) {
@@ -25,19 +25,18 @@ if ($_SESSION["admin_login"] != "tamam") {
       break;
     case "ekleme":
       $islemBaslik = "Yeni Özellik";
-      $sorgu = "SELECT COUNT(*) FROM urun_ozellik WHERE isim='{$isim}' AND urun_id='{$urun_id}'";
+      $sorgu = "SELECT COUNT(*) FROM urun_ozellik WHERE ozellik='{$ozellik}' AND urun_id='{$urun_id}'";
       $adet = $bag->query($sorgu)->fetchColumn();
       if ($adet > 0) {
         $mesaj = "Bu özellik daha önce oluşturulmuş!!!";
       } else {
-        $sorgu = $bag->prepare("INSERT INTO urun_ozellik(urun_id, isim, bilgi) VALUES(?,?,?)");
-        $sorgu->execute(array($urun_id, $isim, $bilgi));
+        $sorgu = $bag->prepare("INSERT INTO urun_ozellik(urun_id, ozellik, bilgi) VALUES(?,?,?)");
+        $sorgu->execute(array($urun_id, $ozellik, $bilgi));
         $mesaj = "Yeni bir özellik eklendi...";
       }
-      unset($id, $urun_id, $isim, $bilgi);
       break;
     case "guncellemeBaslat":
-      if ($id != '' && $urun_id != '' && $isim != '' && $bilgi != '') {
+      if ($id != '' && $urun_id != '' && $ozellik != '' && $bilgi != '') {
         $islem = "guncellemeYap";
         $islemBaslik = "Özellik Güncelleme";
         $buttonText = "GÜNCELLE";
@@ -46,8 +45,8 @@ if ($_SESSION["admin_login"] != "tamam") {
       }
       break;
     case "guncellemeYap":
-      $sorgu = $bag->prepare("UPDATE urun_ozellik SET urun_id=:u, isim=:i, bilgi=:b WHERE id='{$id}'");
-      $sonuc = $sorgu->execute(array("u" => $urun_id, "i" => $isim, "b" => $bilgi));
+      $sorgu = $bag->prepare("UPDATE urun_ozellik SET urun_id=:u, ozellik=:o, bilgi=:b WHERE id='{$id}'");
+      $sonuc = $sorgu->execute(array("u" => $urun_id, "o" => $ozellik, "b" => $bilgi));
       if ($sonuc) {
         $mesaj = "Güncelleme işlemi gerçekleşti";
       } else {
@@ -55,7 +54,6 @@ if ($_SESSION["admin_login"] != "tamam") {
       }
       $islem = "ekleme";
       $islemBaslik = "Yeni Özellik";
-      unset($id, $urun_id, $isim, $bilgi);
       break;
     default :
       $buttonText = "EKLE";
@@ -123,10 +121,10 @@ if ($_SESSION["admin_login"] != "tamam") {
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label">İsim</label>
                       <div class="col-sm-10">
-                        <input type="text" name="isim" class="form-control"
+                        <input type="text" name="ozellik" class="form-control"
                         <?php
                         if ($islem == "guncellemeYap") {
-                          echo 'value="' . $isim . '"';
+                          echo 'value="' . $ozellik . '"';
                         } else {
                           echo 'placeholder="Özellik ismi giriniz" required';
                         }
@@ -180,27 +178,27 @@ if ($_SESSION["admin_login"] != "tamam") {
                 </thead>
                 <tbody>
                   <?php
-                  $ozellikler_ZA = $bag->query("SELECT * FROM urun_ozellik ORDER BY id DESC", PDO::FETCH_ASSOC);
-                  foreach ($ozellikler_ZA as $ozellik):
+                  $ozellikler_ZA = $bag->query("SELECT * FROM urun_ozellik WHERE urun_id = '{$urun_id}' ORDER BY id DESC", PDO::FETCH_ASSOC);
+                  foreach ($ozellikler_ZA as $kayit):
                     ?>
                     <tr>
                       <td class="text-center">
-                        <a href="index.php?sayfa=urun_ozellikleri&islem=guncellemeBaslat&urun_id=<?= $ozellik['urun_id'] ?>&id=<?= $ozellik['id'] ?>&isim=<?= $ozellik['isim'] ?>&bilgi=<?= $ozellik['bilgi'] ?>&durum=<?= $urun['durum'] ?>&aciklama=<?= $urun['aciklama'] ?>">
+                        <a href="index.php?sayfa=urun_ozellikleri&islem=guncellemeBaslat&urun_id=<?= $kayit['urun_id'] ?>&urun_isim=<?= $urun_isim ?>&id=<?= $kayit['id'] ?>&ozellik=<?= $kayit['ozellik'] ?>&bilgi=<?= $kayit['bilgi'] ?>">
                           <button class="btn btn-info btn-xs">
                             <i class="fas fa-pencil-alt"></i>
                             GÜNCELLEME
                           </button>
                         </a>
                         -
-                        <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-sil" data-href="index.php?sayfa=urun_ozellikleri&islem=silme&id=<?= $ozellik['id'] ?>">
+                        <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-sil" data-href="index.php?sayfa=urun_ozellikleri&islem=silme&id=<?= $kayit['id'] ?>">
                           <i class="fas fa-trash"></i>
                           SİL
                         </button>
                       </td>
-                      <td><?= $ozellik["id"] ?></td>
+                      <td><?= $kayit["id"] ?></td>
                       <td><?= $urun_isim; ?></td>
-                      <td><?= $ozellik["isim"] ?></td>
-                      <td><?= $ozellik["bilgi"] ?></td>
+                      <td><?= $kayit["ozellik"] ?></td>
+                      <td><?= $kayit["bilgi"] ?></td>
                     </tr>
                   <?php endforeach; ?>
                 </tbody>
@@ -209,7 +207,7 @@ if ($_SESSION["admin_login"] != "tamam") {
             <!-- /.card-body -->
             <div class="card-footer">
               <?php
-              $sorgu = "SELECT COUNT(*) FROM urun_ozellik";
+              $sorgu = "SELECT COUNT(*) FROM urun_ozellik WHERE urun_id = '{$urun_id}'";
               $adet = $bag->query($sorgu)->fetchColumn();
               echo "Toplam " . $adet . " özellik bulunmaktadır...";
               ?>

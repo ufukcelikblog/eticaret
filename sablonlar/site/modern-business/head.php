@@ -10,6 +10,6 @@
 <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
 <!-- Core theme CSS (includes Bootstrap)-->
 <link href="<?= SITE_SABLON ?>/css/styles.css" rel="stylesheet" />
-
+<link href="<?= SITE_SABLON ?>/css/menu.css" rel="stylesheet" />
 </head>
 

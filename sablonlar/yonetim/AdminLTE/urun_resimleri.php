@@ -24,11 +24,11 @@ if ($_SESSION["admin_login"] != "tamam") {
     case "ekleme":
       $islemBaslik = "Yeni Resim";
       if ($_FILES) {
-        $resim = file_get_contents($_FILES['resim']['tmp_name']);
-        $tip = $_FILES['resim']['type'];
+        $veri = file_get_contents($_FILES['veri']['tmp_name']);
+        $tip = $_FILES['veri']['type'];
         if (substr($tip, 0, 5) == "image") {
-          $sorgu = $bag->prepare("INSERT INTO urun_resim(urun_id, resim) VALUES(?,?)");
-          $sorgu->execute(array($urun_id, $resim));
+          $sorgu = $bag->prepare("INSERT INTO urun_resim(urun_id, veri) VALUES(?,?)");
+          $sorgu->execute(array($urun_id, $veri));
           $mesaj = "Yeni bir resim eklendi...";
         } else {
           $mesaj = "Dosya türü resim olmalıdır!";
@@ -36,7 +36,6 @@ if ($_SESSION["admin_login"] != "tamam") {
       } else {
         $mesaj = "Bir resim seçilmedi!";
       }
-      //unset($id, $dosya);
       break;
     case "guncellemeBaslat":
       if ($id != '') {
@@ -49,11 +48,11 @@ if ($_SESSION["admin_login"] != "tamam") {
       break;
     case "guncellemeYap":
       if ($_FILES) {
-        $resim = file_get_contents($_FILES['resim']['tmp_name']);
-        $tip = $_FILES['resim']['type'];
+        $veri = file_get_contents($_FILES['veri']['tmp_name']);
+        $tip = $_FILES['veri']['type'];
         if (substr($tip, 0, 5) == "image") {
-          $sorgu = $bag->prepare("UPDATE urun_resim SET urun_id=:u, resim=:r WHERE id='{$id}'");
-          $sonuc = $sorgu->execute(array("u" => $urun_id, "r" => $resim));
+          $sorgu = $bag->prepare("UPDATE urun_resim SET urun_id=:u, veri=:v WHERE id='{$id}'");
+          $sonuc = $sorgu->execute(array("u" => $urun_id, "v" => $veri));
           if ($sonuc) {
             $mesaj = "Güncelleme işlemi gerçekleşti";
           } else {
@@ -130,7 +129,7 @@ if ($_SESSION["admin_login"] != "tamam") {
                         <div class="col-sm-10">
                           <div class="input-group">
                             <div class="custom-file">
-                              <input type="file" name="resim" onchange="resimGoster(this);">
+                              <input type="file" name="veri" onchange="resimGoster(this);">
                             </div>
                           </div>
                         </div>
@@ -158,9 +157,9 @@ if ($_SESSION["admin_login"] != "tamam") {
                   <div class="col-md-12">
                     <?php
                     if ($islem == "guncellemeYap") {
-                      $sorgu = "SELECT resim FROM urun_resim WHERE id='{$id}'";
-                      $resimVeri = $bag->query($sorgu)->fetchColumn();
-                      $resim = "data:image;base64," . base64_encode($resimVeri);
+                      $sorgu = "SELECT veri FROM urun_resim WHERE id='{$id}'";
+                      $veri = $bag->query($sorgu)->fetchColumn();
+                      $resim = "data:image;base64," . base64_encode($veri);
                     } else {
                       $resim = "https://via.placeholder.com/500x300";
                     }
@@ -192,7 +191,6 @@ if ($_SESSION["admin_login"] != "tamam") {
                     <th>ID</th>
                     <th>Ürün</th>
                     <th>Resim</th>
-                    <th>Sıra</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -209,15 +207,14 @@ if ($_SESSION["admin_login"] != "tamam") {
                           </button>
                         </a>
                         -
-                        <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-sil" data-href="?sayfa=urun_resimleri&islem=silme&urun_id=<?= $urun_id ?>&id=<?= $kayit['id'] ?>">
+                        <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-sil" data-href="?sayfa=urun_resimleri&islem=silme&urun_id=<?= $urun_id ?>&urun_isim=<?= $urun_isim ?>&id=<?= $kayit['id'] ?>">
                           <i class="fas fa-trash"></i>
                           SİL
                         </button>
                       </td>
                       <td><?= $kayit["id"] ?></td>
                       <td><?= $urun_isim; ?></td>
-                      <td><img src="data:image;base64,<?= base64_encode($kayit['resim']) ?>" width="100" height="50"></img></td>
-                  <td><?= $kayit["sira"] ?></td>
+                      <td><img src="data:image;base64,<?= base64_encode($kayit['veri']) ?>" width="100" height="50"></img></td>
                   </tr>
                 <?php endforeach; ?>
                 </tbody>
