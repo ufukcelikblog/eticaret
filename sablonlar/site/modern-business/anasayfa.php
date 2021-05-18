@@ -74,10 +74,9 @@
                   <p class="card-text"><?= $urun['aciklama'] ?></p>
                   <small class="text-muted"><?= $urun['durum'] ?></small>
                 </div>
-                <div class="card-footer">
-                  <button class="btn btn-secondary btn-xs">
-                    <i class="fas fa-shopping-basket"></i>
-                    SEPETE EKLE
+                <div class="card-footer" data-id="<?= $urun['id'] ?>">
+                  <button class="sepet-dugme btn btn-secondary btn-xs">
+                    <i class="fas fa-shopping-basket"></i>EKLE
                   </button>
                 </div>
               </div>

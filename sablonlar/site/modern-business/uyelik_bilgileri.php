@@ -3,6 +3,8 @@ if ($_SESSION["login"] != "tamam") {
   header("Location: index.php?sayfa=uyelik");
 } else {
   ?>
+<!-- Page Content-->
+<div class="container">
   <!-- Page Heading/Breadcrumbs -->
   <h1 class="mt-4 mb-3">E-Ticaret Sitesi
     <small>Üyelik Bilgileri</small>
@@ -53,7 +55,7 @@ if ($_SESSION["login"] != "tamam") {
       </div>
     </div>
   </div>
-
+</div>
   <?php
 }
 ?>

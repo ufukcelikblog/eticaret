@@ -56,6 +56,8 @@ if ($_SESSION["login"] == "tamam") {
     }
   }
   ?>
+<!-- Page Content-->
+<div class="container">
   <!-- Page Heading/Breadcrumbs -->
   <h1 class="mt-4 mb-3">E-Ticaret Sitesi
     <small><?php echo $baslik; ?></small>
@@ -176,7 +178,7 @@ if ($_SESSION["login"] == "tamam") {
       </div>
     </div>
   </div>
-
+</div>
   <?php
 }
 ?>

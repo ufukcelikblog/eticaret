@@ -1,4 +1,6 @@
-<!-- Page Heading/Breadcrumbs -->
+<!-- Page Content-->
+<div class="container">
+  <!-- Page Heading/Breadcrumbs -->
 <h1 class="mt-4 mb-3">E-Ticaret
   <small><?php echo $baslik; ?></small>
 </h1>
@@ -73,3 +75,4 @@
   </div>
 </div>
 <!-- /.row -->
+</div>

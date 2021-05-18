@@ -7,8 +7,30 @@
 </footer>
 
 <!-- Bootstrap core JS-->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<!-- Burada jquery.slim.min kaldırıyoruz. Çünkü AJAX desteklemiyor-->
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 <script src="<?= SITE_SABLON ?>/js/scripts.js"></script>
+<script type="text/javascript">
+  $('.sepet-dugme').click(function (e) {
+    e.preventDefault();
+    var urun_id = $(this).parent().data('id');
 
+    $.ajax({
+      type: 'POST',
+      url: '../eticaret/kutuphane/sepet_islemleri.php',
+      data: {
+        urun_id: urun_id
+      },
+      success: function (result)
+      {
+         alert('Başarılı: ' + result);
+      },
+      error: function (result) {
+        alert('Hata: ' + result);
+      }
+    });
+  });
+</script>
