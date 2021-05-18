@@ -26,16 +26,16 @@ if ($_SESSION["login"] == "tamam") {
     $sifre = $_POST["sifre"];
     $sorgu = $bag->prepare("SELECT * FROM uye WHERE eposta = ? AND sifre = ?");
     $sorgu->execute(array($eposta, $sifre));
-    $kategoriler = $sorgu->fetch();
-    if ($kategoriler) {
+    $sonuc = $sorgu->fetch();
+    if ($sonuc) {
       $mesaj = "Giriş Başarılı";
       $_SESSION["login"] = "tamam";
-      $_SESSION["id"] = $kategoriler["id"];
-      $_SESSION["ad"] = $kategoriler["ad"];
-      $_SESSION["soyad"] = $kategoriler["soyad"];
-      $_SESSION["eposta"] = $kategoriler["eposta"];
-      $_SESSION["sifre"] = $kategoriler["sifre"];
-      $_SESSION["tur"] = $kategoriler["tur"];
+      $_SESSION["id"] = $sonuc["id"];
+      $_SESSION["ad"] = $sonuc["ad"];
+      $_SESSION["soyad"] = $sonuc["soyad"];
+      $_SESSION["eposta"] = $sonuc["eposta"];
+      $_SESSION["sifre"] = $sonuc["sifre"];
+      $_SESSION["tur"] = $sonuc["tur"];
     } else {
       $mesaj = "Hatalı e-posta veya şifre !";
     }

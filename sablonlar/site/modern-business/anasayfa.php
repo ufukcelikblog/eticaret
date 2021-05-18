@@ -72,8 +72,14 @@
                   <h4 class="card-title"><a href="#!"><?= $urun['isim'] ?></a></h4>
                   <h5><?= $urun['fiyat'] ?> TL</h5>
                   <p class="card-text"><?= $urun['aciklama'] ?></p>
+                  <small class="text-muted"><?= $urun['durum'] ?></small>
                 </div>
-                <div class="card-footer"><small class="text-muted"><?= $urun['durum'] ?></small></div>
+                <div class="card-footer">
+                  <button class="btn btn-secondary btn-xs">
+                    <i class="fas fa-shopping-basket"></i>
+                    SEPETE EKLE
+                  </button>
+                </div>
               </div>
             </div>
             <?php

@@ -8,13 +8,13 @@ if ($_SESSION["admin_login"] == "tamam") {
     $sifre = $_POST["sifre"];
     $sorgu = $bag->prepare("SELECT * FROM uye WHERE tur = 'admin' AND eposta = ? AND sifre = ?");
     $sorgu->execute(array($eposta, $sifre));
-    $kategoriler = $sorgu->fetch();
-    if ($kategoriler) {
+    $sonuc = $sorgu->fetch();
+    if ($sonuc) {
       $mesaj = "Giriş Başarılı";
       $_SESSION["admin_login"] = "tamam";
-      $_SESSION["admin_id"] = $kategoriler["id"];
-      $_SESSION["admin_ad"] = $kategoriler["ad"];
-      $_SESSION["admin_soyad"] = $kategoriler["soyad"];
+      $_SESSION["admin_id"] = $sonuc["id"];
+      $_SESSION["admin_ad"] = $sonuc["ad"];
+      $_SESSION["admin_soyad"] = $sonuc["soyad"];
     } else {
       $mesaj = "Hatalı e-posta veya şifre girdiniz! Belki de yönetici değilsiniz!!!";
     }
