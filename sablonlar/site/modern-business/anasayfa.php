@@ -76,7 +76,7 @@
                 </div>
                 <div class="card-footer" data-id="<?= $urun['id'] ?>">
                   <button class="sepet-dugme btn btn-secondary btn-xs">
-                    <i class="fas fa-shopping-basket"></i>EKLE
+                    <i class="fas fa-shopping-basket"></i> EKLE
                   </button>
                 </div>
               </div>
@@ -94,4 +94,7 @@
       </div>
     </div>
   </div>
+</div>
+<div id="modal-container">
+  
 </div>

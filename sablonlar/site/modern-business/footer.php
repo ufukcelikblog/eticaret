@@ -26,10 +26,14 @@
       },
       success: function (result)
       {
-         alert('Başarılı: ' + result);
+        $('#modal-container').html(result);
+        // Display Modal
+        $('#sepet-modal').modal('show');
       },
       error: function (result) {
-        alert('Hata: ' + result);
+        $('#modal-container').html(result);
+        // Display Modal
+        $('#sepet-modal').modal('show');
       }
     });
   });
