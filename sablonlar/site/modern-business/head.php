@@ -11,5 +11,6 @@
 <!-- Core theme CSS (includes Bootstrap)-->
 <link href="<?= SITE_SABLON ?>/css/styles.css" rel="stylesheet" />
 <link href="<?= SITE_SABLON ?>/css/menu.css" rel="stylesheet" />
+<script src="<?= SITE_SABLON ?>/js/sepet_guncelleme.js"></script>
 </head>
 

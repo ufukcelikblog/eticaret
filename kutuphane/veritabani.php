@@ -15,20 +15,35 @@ try {
   echo "Bir hata oluştu: " . $hata->getMessage();
 }
 
+// Kaynak http://jsfiddle.net/plowdawg/21um68r2/
 function kategoriMenu($ustID = 0) {
   global $bag;
   $kategoriler = $bag->query("SELECT * FROM kategori WHERE ust_id='{$ustID}'")->fetchAll(PDO::FETCH_ASSOC);
   $sonuc = "";
   foreach ($kategoriler as $kategori) {
-    $sonuc .= '<li class="list-group-item>';
-    $sonuc .= '<a href="#kategori_' . $kategori['id'] . '" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">' . $kategori['isim'] . '</a>';
-    $sonuc .= '<ul class="list-group list-group-collapse" id="kategori_' . $kategori["id"] . '">';
-    $sonuc .= '<a href="?sayfa=anasayfa&kategori=' . $kategori['id'] . '">' . $kategori['isim'] . ' Ürünleri</a>';
-    $sonuc .= kategoriMenu($kategori['id']);
-    $sonuc .= "</ul>";
-    $sonuc .= "</li>";
+    $sonuc .= '<li class="list-group-item">';
+    $sonuc .= '  <a href="?sayfa=anasayfa&kategori=' . $kategori['id'] . '">' . $kategori['isim'] . '</a>';
+    if (altKategoriVar($kategori['id'])) {
+      $sonuc .= '  <a href="#" data-toggle="#kategori_' . $kategori['id'] . '" class="list-down-btn">';
+      $sonuc .= '    <span class="fas fa-chevron-down"></span>';
+      $sonuc .= '  </a>';
+      $sonuc .= '  <ul class="list-group" id="kategori_' . $kategori['id'] . '">';
+      $sonuc .= kategoriMenu($kategori['id']);
+      $sonuc .= '  </ul>';
+    }
+    $sonuc .= '</li>';
   }
   return $sonuc;
+}
+
+function altKategoriVar($ID = 0) {
+  global $bag;
+  $adet = $bag->query("SELECT COUNT(*) FROM kategori WHERE ust_id='{$ID}'")->fetchColumn();
+  if ($adet > 0) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 function urunKategoriler($ID = 0) {
@@ -42,4 +57,3 @@ function urunKategoriler($ID = 0) {
   }
   return $sonuc;
 }
-

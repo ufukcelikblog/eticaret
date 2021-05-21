@@ -69,12 +69,14 @@
                   </a>
                 </div>
                 <div class="card-body">
-                  <h4 class="card-title"><a href="#!"><?= $urun['isim'] ?></a></h4>
+                  <h4 class="card-title">
+                    <a href="index.php?sayfa=urun_inceleme&id=<?= $urun['id'] ?>"><?= $urun['isim'] ?></a>
+                  </h4>
                   <h5><?= $urun['fiyat'] ?> TL</h5>
                   <p class="card-text"><?= $urun['aciklama'] ?></p>
                   <small class="text-muted"><?= $urun['durum'] ?></small>
                 </div>
-                <div class="card-footer">
+                <div class="card-footer" data-id="<?= $urun['id'] ?>">
                   <a href="index.php?sayfa=urun_inceleme&id=<?= $urun['id'] ?>">
                     <button class="btn btn-secondary btn-xs">
                     <i class="fas fa-search"></i> İNCELE

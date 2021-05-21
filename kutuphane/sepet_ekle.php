@@ -25,7 +25,7 @@ if (isset($_POST['urun_id'])) {
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-outline-light" data-dismiss="modal">
                 <i class="fas fa-undo"></i>
-                Alışverişe Devam
+                Alışverişe Devam Et
               </button>
               <a href="index.php?sayfa=sepet">
                 <button type="button" class="btn btn-outline-light">
@@ -53,7 +53,7 @@ if (isset($_POST['urun_id'])) {
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-outline-light" data-dismiss="modal">
                 <i class="fas fa-undo"></i>
-                Vazgeç
+                Alışverişe Devam Et
               </button>
               <a href="index.php?sayfa=sepet">
                 <button type="button" class="btn btn-outline-light">
@@ -80,7 +80,7 @@ if (isset($_POST['urun_id'])) {
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-outline-light" data-dismiss="modal">
                 <i class="fas fa-undo"></i>
-                Vazgeç
+                Siteye Devam Et
               </button>
               <a href="index.php?sayfa=uyelik">
                 <button type="button" class="btn btn-outline-light">

@@ -9,7 +9,7 @@
           <div class="sidebar-header">
             <h3>Kategoriler</h3>
           </div>
-          <ul class="list-unstyled components">
+          <ul class="list-group list-group-collapse">
             <?php echo kategoriMenu(); ?>
           </ul>
         </nav>
@@ -23,7 +23,7 @@
           $urun = $bag->query("SELECT * FROM urun WHERE id ='{$_GET['id']}'")->fetch();
           if ($urun) {
             ?>
-            <div class="col-md-9 ">
+            <div class="col-md-12 ">
               <div class="card card-primary">
                 <div class="carousel slide my-4" id="carouselExampleIndicators_<?= $urun['id'] ?>" data-ride="carousel">
                   <ol class="carousel-indicators">
@@ -71,13 +71,38 @@
                   <small class="text-muted"><?= $urun['durum'] ?></small>
                 </div>
                 <div class="card-footer" data-id="<?= $urun['id'] ?>">
+                  <a href="index.php?sayfa=sepet_islemleri">
+                    <button class="btn btn-secondary btn-xs">
+                      <i class="fas fa-search"></i> SEPETİ GÖSTER
+                    </button>
+                  </a>
                   <button class="sepet-ekle btn btn-secondary btn-xs">
-                    <i class="fas fa-shopping-basket"></i> EKLE
+                    <i class="fas fa-shopping-basket"></i> SEPETE EKLE
                   </button>
                 </div>
               </div>
+              <div class="card card-default">
+                <div class="card-header">
+                  <h3 class="card-title">Özellikler</h3>
+                </div>
+                <div class="card-body table-responsive p-0" style="height: 300px;">
+                  <table class="table table-head-fixed text-nowrap">
+                    <tbody>
+                      <?php
+                      $ozellikler_ZA = $bag->query("SELECT * FROM urun_ozellik WHERE urun_id = '{$urun['id']}'", PDO::FETCH_ASSOC);
+                      foreach ($ozellikler_ZA as $kayit):
+                        ?>
+                        <tr>
+                          <td><?= $kayit["ozellik"] ?></td>
+                          <td><?= $kayit["bilgi"] ?></td>
+                        </tr>
+                      <?php endforeach; ?>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.card-body -->
+              </div>
             </div>
-
             <?php
           } else {
             ?>
