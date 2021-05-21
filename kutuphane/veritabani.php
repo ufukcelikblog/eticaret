@@ -20,9 +20,9 @@ function kategoriMenu($ustID = 0) {
   $kategoriler = $bag->query("SELECT * FROM kategori WHERE ust_id='{$ustID}'")->fetchAll(PDO::FETCH_ASSOC);
   $sonuc = "";
   foreach ($kategoriler as $kategori) {
-    $sonuc .= '<li>';
+    $sonuc .= '<li class="list-group-item>';
     $sonuc .= '<a href="#kategori_' . $kategori['id'] . '" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">' . $kategori['isim'] . '</a>';
-    $sonuc .= '<ul class="collapse list-unstyled" id="kategori_' . $kategori["id"] . '">';
+    $sonuc .= '<ul class="list-group list-group-collapse" id="kategori_' . $kategori["id"] . '">';
     $sonuc .= '<a href="?sayfa=anasayfa&kategori=' . $kategori['id'] . '">' . $kategori['isim'] . ' Ürünleri</a>';
     $sonuc .= kategoriMenu($kategori['id']);
     $sonuc .= "</ul>";

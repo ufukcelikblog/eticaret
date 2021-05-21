@@ -14,27 +14,43 @@
 <!-- Core theme JS-->
 <script src="<?= SITE_SABLON ?>/js/scripts.js"></script>
 <script type="text/javascript">
-  $('.sepet-dugme').click(function (e) {
-    e.preventDefault();
-    var urun_id = $(this).parent().data('id');
+  $(document).ready(function () {
+    sepet_bilgisi();
 
-    $.ajax({
-      type: 'POST',
-      url: '../eticaret/kutuphane/sepet_islemleri.php',
-      data: {
-        urun_id: urun_id
-      },
-      success: function (result)
-      {
-        $('#modal-container').html(result);
-        // Display Modal
-        $('#sepet-modal').modal('show');
-      },
-      error: function (result) {
-        $('#modal-container').html(result);
-        // Display Modal
-        $('#sepet-modal').modal('show');
-      }
+    function sepet_bilgisi() {
+      $.ajax({
+        url: "../eticaret/kutuphane/sepet_bilgisi.php",
+        method: "POST",
+        success: function (data)
+        {
+          $('#sepet-bilgi').html(data);
+        }
+      });
+    }
+
+    $('.sepet-ekle').click(function (e) {
+      e.preventDefault();
+      var urun_id = $(this).parent().data('id');
+
+      $.ajax({
+        type: 'POST',
+        url: '../eticaret/kutuphane/sepet_ekle.php',
+        data: {
+          urun_id: urun_id
+        },
+        success: function (sonuc)
+        {
+          sepet_bilgisi();
+          $('#modal-container').html(sonuc);
+          // Display Modal
+          $('#sepet-modal').modal('show');
+        },
+        error: function (sonuc) {
+          $('#modal-container').html(sonuc);
+          // Display Modal
+          $('#sepet-modal').modal('show');
+        }
+      });
     });
   });
 </script>

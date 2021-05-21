@@ -22,6 +22,10 @@ switch ($sayfa) {
     $baslik = "Üyelik Güncelleme";
     $icerik = 'uyelik_guncelle.php';
     break;
+  case 'urun_inceleme' :
+    $baslik = "Ürün İnceleme";
+    $icerik = 'urun_inceleme.php';
+    break;
   case 'iletisim' :
     $baslik = "İletişim";
     $icerik = 'iletisim.php';

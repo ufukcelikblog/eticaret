@@ -9,7 +9,7 @@
           <div class="sidebar-header">
             <h3>Kategoriler</h3>
           </div>
-          <ul class="list-group list-group-collapse">
+          <ul class="list-unstyled components">
             <?php echo kategoriMenu(); ?>
           </ul>
         </nav>
@@ -19,16 +19,12 @@
     <div class="col-lg-9">
       <div class="row">
         <?php
-        $kategoriIDler = (isset($_GET['kategori']) && $_GET['kategori'] != '') ? urunKategoriler($_GET['kategori']) : urunKategoriler();
-        // ID listesinden en son virgülü siliyoruz
-        $kategoriIDler = substr($kategoriIDler, 0, -1);
-        //echo "Kategoriler = " . $kategoriIDler; 
-        $urunler = $bag->query("SELECT * FROM urun WHERE kategori_id IN (" . $kategoriIDler . ")")->fetchAll(PDO::FETCH_ASSOC);
-        if ($urunler) {
-          foreach ($urunler as $urun):
+        if (isset($_GET['id']) && $_GET['id'] != '') {
+          $urun = $bag->query("SELECT * FROM urun WHERE id ='{$_GET['id']}'")->fetch();
+          if ($urun) {
             ?>
-            <div class="col-lg-4 col-md-6 mb-4">
-              <div class="card h-100">
+            <div class="col-md-9 ">
+              <div class="card card-primary">
                 <div class="carousel slide my-4" id="carouselExampleIndicators_<?= $urun['id'] ?>" data-ride="carousel">
                   <ol class="carousel-indicators">
                     <?php
@@ -74,24 +70,26 @@
                   <p class="card-text"><?= $urun['aciklama'] ?></p>
                   <small class="text-muted"><?= $urun['durum'] ?></small>
                 </div>
-                <div class="card-footer">
-                  <a href="index.php?sayfa=urun_inceleme&id=<?= $urun['id'] ?>">
-                    <button class="btn btn-secondary btn-xs">
-                    <i class="fas fa-search"></i> İNCELE
-                  </button>
-                  </a>
-                  <button class="sepet-ekle btn btn-warning btn-xs">
+                <div class="card-footer" data-id="<?= $urun['id'] ?>">
+                  <button class="sepet-ekle btn btn-secondary btn-xs">
                     <i class="fas fa-shopping-basket"></i> EKLE
                   </button>
                 </div>
               </div>
             </div>
+
             <?php
-          endforeach;
+          } else {
+            ?>
+            <div class="alert alert-warning text-center fade show" role="alert">
+              <strong>MESAJ : </strong> Ürün YOK...
+            </div>
+            <?php
+          }
         } else {
           ?>
           <div class="alert alert-warning text-center fade show" role="alert">
-            <strong>MESAJ : </strong> Aradığınız kategoride ürün bulunamadı
+            <strong>MESAJ : </strong> Ürün bulunamadı... !!!
           </div>
           <?php
         }
@@ -101,5 +99,5 @@
   </div>
 </div>
 <div id="modal-container">
-  
+
 </div>
