@@ -7,6 +7,13 @@ $(document).ready(function () {
     modal.find(".modal-footer a").attr("href", link);
   });
 
+  $('#modal-temizle').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var link = button.data("href");
+    var modal = $(this);
+    modal.find(".modal-footer a").attr("href", link);
+  });
+
   $(document).on('click', '.list-down-btn', function (event) {
     event.preventDefault();
     var target = $(this).attr('data-toggle');
@@ -51,5 +58,5 @@ $(document).ready(function () {
   });
 
   sepet_bilgisi();
-
+  
 });

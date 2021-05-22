@@ -17,8 +17,16 @@ if ($_SESSION["login"] != "tamam") {
         $mesaj = "Silme işleminde problem oldu!!!";
       }
       break;
-    case "guncelleme":
-
+    case "temizleme":
+      $sorgu = "DELETE FROM sepet WHERE uye_id = '{$_SESSION["id"]}'";
+      $silme = $bag->prepare($sorgu);
+      $silme->execute();
+      if ($silme->rowCount() > 0) {
+        $mesaj = "Sepet Temizlendi";
+      } else {
+        $mesaj = "Temizleme işleminde problem oldu!!!";
+      }
+      break;
       break;
   }
   ?>
@@ -44,7 +52,7 @@ if ($_SESSION["login"] != "tamam") {
                   <h3 class="card-title">Alışveriş Sepeti</h3>
                 </div>
                 <div class="card-body table-responsive p-0">
-                  <table class="table text-nowrap">
+                  <table class="table table-striped">
                     <thead>
                       <tr>
                         <th>Ürün</th>
@@ -93,7 +101,21 @@ if ($_SESSION["login"] != "tamam") {
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-
+                  <div class="row">
+                    <div class="col-lg-5 col-md-5 mb-5">
+                      <a href="?sayfa=anasayfa" class="btn btn-primary">Alışverişe Devam Et</a>
+                      <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-temizle" data-href="?sayfa=sepet_islemleri&islem=temizleme">
+                        <i class="fas fa-trash"></i>
+                        Sepeti Temizle
+                      </button>
+                    </div>
+                    <div class="col-lg-4 col-md-4 mb-4">
+                      <h4>Toplam Fiyat: <b id="sepetToplamFiyat"><?= $sepetToplamFiyat ?></b></h4>
+                    </div>
+                    <div class="col-lg-3 col-md-3 mb-3">
+                      <a href="?sayfa=siparis" class="btn btn-success float-md-none">Sipariş Ver</a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -121,6 +143,34 @@ if ($_SESSION["login"] != "tamam") {
                 <button type="button" class="btn btn-outline-light">
                   <i class="fas fa-trash"></i>
                   SİL
+                </button>
+              </a>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+      <div class="modal fade" id="modal-temizle">
+        <div class="modal-dialog">
+          <div class="modal-content bg-danger">
+            <div class="modal-header">
+              <h4 class="modal-title">Sepeti Temizleme</h4>
+            </div>
+            <div class="modal-body">
+              <p>Sepeti temizleyip tüm ürünleri çıkartmak istediğinize emin misiniz?</p>
+              <p>Bu işlem geri alınamaz!</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-outline-light" data-dismiss="modal">
+                <i class="fas fa-undo"></i>
+                Vazgeç
+              </button>
+              <a href="#" id="modalLink">
+                <button type="button" class="btn btn-outline-light">
+                  <i class="fas fa-trash"></i>
+                  TEMİZLE
                 </button>
               </a>
             </div>

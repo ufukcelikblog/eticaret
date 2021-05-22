@@ -27,7 +27,7 @@ if (isset($_POST['urun_id'])) {
                 <i class="fas fa-undo"></i>
                 Alışverişe Devam Et
               </button>
-              <a href="index.php?sayfa=sepet">
+              <a href="index.php?sayfa=sepet_islemleri">
                 <button type="button" class="btn btn-outline-light">
                   <i class="fas fa-shopping-basket"></i>
                   Sepeti Aç
@@ -55,7 +55,7 @@ if (isset($_POST['urun_id'])) {
                 <i class="fas fa-undo"></i>
                 Alışverişe Devam Et
               </button>
-              <a href="index.php?sayfa=sepet">
+              <a href="index.php?sayfa=sepet_islemleri">
                 <button type="button" class="btn btn-outline-light">
                   <i class="fas fa-shopping-basket"></i>
                   Sepeti Kontrol Et
