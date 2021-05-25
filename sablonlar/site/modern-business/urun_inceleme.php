@@ -76,7 +76,7 @@
                       <i class="fas fa-search"></i> SEPETİ GÖSTER
                     </button>
                   </a>
-                  <button class="sepet-ekle btn btn-secondary btn-xs">
+                  <button class="sepet-ekle btn btn-secondary btn-xs" onclick="sepet_ekle(<?= $urun['id'] ?>)">
                     <i class="fas fa-shopping-basket"></i> SEPETE EKLE
                   </button>
                 </div>

@@ -68,6 +68,7 @@ if ($_SESSION["login"] != "tamam") {
                       $sepetToplamAdet = 0;
                       $sepetToplamFiyat = 0;
                       foreach ($kayitlar as $kayit):
+                        $urun_id = $kayit['urun_id'];
                         $urun_isim = $bag->query("SELECT isim FROM urun WHERE id='{$kayit['urun_id']}'")->fetchColumn();
                         $urun_adet = $kayit['adet'];
                         $sepetToplamAdet += $urun_adet;
@@ -76,18 +77,20 @@ if ($_SESSION["login"] != "tamam") {
                         $sepetToplamFiyat += $urun_toplam_fiyat;
                         ?>
                         <tr>
-                          <td><?= $urun_isim ?></td>
                           <td>
-                            <button type="button" class="btn btn-xs" onclick="urunAdetAzalt(<?= $kayit['id'] ?>, <?= $urun_fiyat ?>)">
+                            <a href="index.php?sayfa=urun_inceleme&id=<?= $urun_id ?>"><?= $urun_isim ?></a>
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-xs" onclick="sepetAdetAzalt(<?= $kayit['id'] ?>, <?= $urun_fiyat ?>)">
                               <i class="fas fa-minus"></i>
                             </button>
-                      <input type="text" id="urun_<?= $kayit['id'] ?>_adet" value="<?= $urun_adet ?>" size="2" disabled>
-                        <button type="button" class="btn btn-xs" onclick="urunAdetCogalt(<?= $kayit['id'] ?>, <?= $urun_fiyat ?>)">
+                      <input type="text" id="sepet_<?= $kayit['id'] ?>_adet" value="<?= $urun_adet ?>" size="2" disabled>
+                        <button type="button" class="btn btn-xs" onclick="sepetAdetCogalt(<?= $kayit['id'] ?>, <?= $urun_fiyat ?>)">
                           <i class="fas fa-plus"></i>
                         </button>
                         </td>
-                        <td id="urun_<?= $kayit['id'] ?>_fiyat"><?= $urun_fiyat ?></td>
-                        <td id="urun_<?= $kayit['id'] ?>_toplam_fiyat"><?= $urun_toplam_fiyat ?></td>
+                        <td id="sepet_<?= $kayit['id'] ?>_fiyat"><?= $urun_fiyat ?></td>
+                        <td id="sepet_<?= $kayit['id'] ?>_toplam_fiyat"><?= $urun_toplam_fiyat ?></td>
                         <td>
                           <button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modal-sil" data-href="?sayfa=sepet_islemleri&islem=silme&id=<?= $kayit['id'] ?>">
                             <i class="fas fa-trash"></i>

@@ -82,7 +82,7 @@
                     <i class="fas fa-search"></i> İNCELE
                   </button>
                   </a>
-                  <button class="sepet-ekle btn btn-warning btn-xs">
+                  <button class="btn btn-warning btn-xs" onclick="sepet_ekle(<?= $urun['id'] ?>)">
                     <i class="fas fa-shopping-basket"></i> EKLE
                   </button>
                 </div>
