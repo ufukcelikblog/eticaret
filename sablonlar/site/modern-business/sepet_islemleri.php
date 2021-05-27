@@ -27,7 +27,6 @@ if ($_SESSION["login"] != "tamam") {
         $mesaj = "Temizleme işleminde problem oldu!!!";
       }
       break;
-      break;
   }
   ?>
   <!-- Page Content-->
