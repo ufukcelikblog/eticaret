@@ -32,6 +32,17 @@ if ($_SESSION["login"] != "tamam") {
   ?>
   <!-- Page Content-->
   <div class="container">
+      <!-- Page Heading/Breadcrumbs -->
+  <h1 class="mt-4 mb-3">E-Ticaret
+    <small><?php echo $baslik; ?></small>
+  </h1>
+
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="index.php">Anasayfa</a>
+    </li>
+    <li class="breadcrumb-item active">Sepet İşlemleri</li>
+  </ol>
     <?php
     if ($mesaj != "") {
       ?>
@@ -116,7 +127,7 @@ if ($_SESSION["login"] != "tamam") {
                       <h4>Toplam Fiyat: <b id="sepetToplamFiyat"><?= $sepetToplamFiyat ?></b></h4>
                     </div>
                     <div class="col-lg-3 col-md-3 mb-3">
-                      <a href="?sayfa=siparis" class="btn btn-success float-md-none">Sipariş Ver</a>
+                      <a href="?sayfa=siparis_islemleri" class="btn btn-success float-md-none">Sipariş Ver</a>
                     </div>
                   </div>
                 </div>
