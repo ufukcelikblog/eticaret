@@ -78,7 +78,7 @@ if ($_SESSION["login"] != "tamam") {
               <span class="text-muted"><?= $urun_toplam_fiyat ?> TL</span>
             </li>
             <?php endforeach; ?>
-            <li class="list-group-item d-flex justify-content-between">
+            <li class="list-group-item list-group-item-warning d-flex justify-content-between">
               <span>Toplam <?= $sepetToplamAdet ?> Ürün</span>
               <strong><?= $sepetToplamFiyat ?> TL</strong>
             </li>
