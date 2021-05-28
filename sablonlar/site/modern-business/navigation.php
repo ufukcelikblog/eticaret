@@ -36,6 +36,15 @@
                 Üyelik Güncelle
               </a>
               <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="index.php?sayfa=siparis_islemleri">
+                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                Sipariş İşlemleri
+              </a>
+              <a class="dropdown-item" href="index.php?sayfa=siparis_listesi">
+                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                Sipariş Listesi
+              </a>
+              <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="index.php?sayfa=cikis">
                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                 Çıkış Yap

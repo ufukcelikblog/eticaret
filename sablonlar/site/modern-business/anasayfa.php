@@ -1,5 +1,16 @@
 <!-- Page Content-->
 <div class="container">
+  <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">E-Ticaret
+      <small><?php echo $baslik; ?></small>
+    </h1>
+
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="index.php">Anasayfa</a>
+      </li>
+      <li class="breadcrumb-item active">Kategoriler</li>
+    </ol>
   <div class="row">
 
     <div class="col-lg-3">
@@ -82,7 +93,7 @@
                     <i class="fas fa-search"></i> İNCELE
                   </button>
                   </a>
-                  <button class="btn btn-warning btn-xs" onclick="sepet_ekle(<?= $urun['id'] ?>)">
+                  <button class="btn btn-warning btn-xs float-right" onclick="sepet_ekle(<?= $urun['id'] ?>)">
                     <i class="fas fa-shopping-basket"></i> EKLE
                   </button>
                 </div>

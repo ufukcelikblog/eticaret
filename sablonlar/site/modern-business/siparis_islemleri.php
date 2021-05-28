@@ -2,7 +2,6 @@
 if ($_SESSION["login"] != "tamam") {
   header("Location: index.php?sayfa=uyelik");
 } else {
-  $mesaj = "";
   $uye_id = $_SESSION['id'];
   if (isset($_POST["siparis"])) {
     $adres_id = $_POST["adres_id"];
@@ -14,7 +13,7 @@ if ($_SESSION["login"] != "tamam") {
     $sorgu = "DELETE FROM sepet WHERE uye_id = '{$uye_id}'";
     $silme = $bag->prepare($sorgu);
     $silme->execute();
-    $mesaj = "Sipariş İşlemi Gerçekleşti";
+    header("Location: index.php?sayfa=siparis_listesi");
   }
   ?>
   <!-- Page Content-->
@@ -30,15 +29,6 @@ if ($_SESSION["login"] != "tamam") {
       </li>
       <li class="breadcrumb-item active">Sipariş İşlemleri</li>
     </ol>
-    <?php
-    if ($mesaj != "") {
-      ?>
-      <div class="alert alert-warning text-center fade show" role="alert">
-        <strong>MESAJ : </strong> <?php echo $mesaj; ?>
-      </div>
-      <?php
-    }
-    ?>
     <div class="row">
       <div class="col-md-4 order-md-2 mb-4">
         <h4 class="d-flex justify-content-between align-items-center mb-3">

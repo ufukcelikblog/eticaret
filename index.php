@@ -34,6 +34,10 @@ switch ($sayfa) {
     $baslik = "Sipariş İşlemleri";
     $icerik = 'siparis_islemleri.php';
     break;
+  case 'siparis_listesi' :
+    $baslik = "Sipariş Listesi";
+    $icerik = 'siparis_listesi.php';
+    break;
   case 'adres_islemleri' :
     $baslik = "Adres İşlemleri";
     $icerik = 'adres_islemleri.php';
