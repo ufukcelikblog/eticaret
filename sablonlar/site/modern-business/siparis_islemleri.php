@@ -3,30 +3,18 @@ if ($_SESSION["login"] != "tamam") {
   header("Location: index.php?sayfa=uyelik");
 } else {
   $mesaj = "";
-  $id = (isset($_GET['id']) && $_GET['id'] != '') ? $_GET['id'] : '';
-  $islem = (isset($_GET['islem']) && $_GET['islem'] != '') ? $_GET['islem'] : '';
-
-  switch ($islem) {
-    case "silme":
-      $sorgu = "DELETE FROM sepet WHERE id = '{$id}'";
-      $silme = $bag->prepare($sorgu);
-      $silme->execute();
-      if ($silme->rowCount() > 0) {
-        $mesaj = "Silme işlemi gerçekleşti";
-      } else {
-        $mesaj = "Silme işleminde problem oldu!!!";
-      }
-      break;
-    case "temizleme":
-      $sorgu = "DELETE FROM sepet WHERE uye_id = '{$_SESSION["id"]}'";
-      $silme = $bag->prepare($sorgu);
-      $silme->execute();
-      if ($silme->rowCount() > 0) {
-        $mesaj = "Sepet Temizlendi";
-      } else {
-        $mesaj = "Temizleme işleminde problem oldu!!!";
-      }
-      break;
+  $uye_id = $_SESSION['id'];
+  if (isset($_POST["siparis"])) {
+    $adres_id = $_POST["adres_id"];
+    $kayitlar = $bag->query("SELECT * FROM sepet WHERE uye_id='{$uye_id}'", PDO::FETCH_ASSOC);
+    foreach ($kayitlar as $kayit):
+      $sorgu = $bag->prepare("INSERT INTO siparis(uye_id, adres_id, urun_id, adet) VALUES(?,?,?,?)");
+      $sorgu->execute(array($uye_id, $adres_id, $kayit['urun_id'], $kayit['adet']));
+    endforeach;
+    $sorgu = "DELETE FROM sepet WHERE uye_id = '{$uye_id}'";
+    $silme = $bag->prepare($sorgu);
+    $silme->execute();
+    $mesaj = "Sipariş İşlemi Gerçekleşti";
   }
   ?>
   <!-- Page Content-->
@@ -77,86 +65,97 @@ if ($_SESSION["login"] != "tamam") {
               </div>
               <span class="text-muted"><?= $urun_toplam_fiyat ?> TL</span>
             </li>
-            <?php endforeach; ?>
-            <li class="list-group-item list-group-item-warning d-flex justify-content-between">
-              <span>Toplam <?= $sepetToplamAdet ?> Ürün</span>
-              <strong><?= $sepetToplamFiyat ?> TL</strong>
-            </li>
+          <?php endforeach; ?>
+          <li class="list-group-item list-group-item-warning d-flex justify-content-between">
+            <span>Toplam <?= $sepetToplamAdet ?> Ürün</span>
+            <strong><?= $sepetToplamFiyat ?> TL</strong>
+          </li>
         </ul>
       </div>
       <div class="col-md-8 order-md-1">
-        <h4 class="mb-3">Adres Bilgileri</h4>
-        <form class="needs-validation" novalidate>
-          <div class="mb-3">
-            <label for="adres">Adres</label>
-            <input type="text" class="form-control" id="adres" name="adres" placeholder="Adresiniz" required>
-              <div class="invalid-feedback">
-                Lütfen adresinizi yazınız.
+        <?php
+        $sorgu = "SELECT COUNT(*) FROM adres WHERE uye_id = '{$uye_id}'";
+        $adet = $bag->query($sorgu)->fetchColumn();
+        if ($adet > 0) {
+          ?>
+          <h4 class="mb-3">Adres Bilgileri</h4>
+          <form action="?sayfa=siparis_islemleri" method="post" class="needs-validation">
+            <?php
+            $sorgu = "SELECT * FROM adres WHERE uye_id = '{$uye_id}'";
+            $kayitlar = $bag->query("SELECT * FROM adres WHERE uye_id = '{$uye_id}'", PDO::FETCH_ASSOC);
+            foreach ($kayitlar as $kayit):
+              ?>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="adres_id" id="adres_<?= $kayit["id"] ?>" value="<?= $kayit["id"] ?>" required>
+                  <label class="form-check-label" for="adres_<?= $kayit["id"] ?>">
+                    <?php echo $kayit["adres"] . " " . $kayit["sehir"] . " / " . $kayit["ilce"] . " " . $kayit["postakodu"] ?>
+                  </label>
+                  &nbsp;
+                  <a href="index.php?sayfa=adres_islemleri&islem=guncellemeBaslat&id=<?= $kayit['id'] ?>&adres=<?= $kayit['adres'] ?>&sehir=<?= $kayit['sehir'] ?>&ilce=<?= $kayit['ilce'] ?>&postakodu=<?= $kayit['postakodu'] ?>" class="btn btn-light btn-xs">                   
+                    <i class="fas fa-edit"></i>
+                  </a>
               </div>
-          </div>
-          <div class="row">
-            <div class="col-md-5 mb-3">
-              <label for="sehir">Şehir</label>
-              <input type="text" class="form-control" id="sehir" name="sehir" placeholder="Şehriniz" required>
-                <div class="invalid-feedback">
-                  Lütfen şehiri yazınız.
-                </div>
-            </div>
-            <div class="col-md-4 mb-3">
-              <label for="ilce">İlçe</label>
-              <input type="text" class="form-control" id="ilce" name="ilce" placeholder="İlçeniz" required>
-                <div class="invalid-feedback">
-                  Lütfen ilçeyi yazınız.
-                </div>
-            </div>
-            <div class="col-md-3 mb-3">
-              <label for="posta">Posta Kodu</label>
-              <input type="text" class="form-control" id="posta" name="posta" placeholder="Posta kodunuz" required>
-                <div class="invalid-feedback">
-                  Lütfen posta kodunu yazınız.
-                </div>
-            </div>
-          </div>
-          <hr class="mb-4">
+              <?php
+            endforeach;
+            ?>
+            <a href="index.php?sayfa=adres_islemleri" class="btn btn-secondary btn-xs">              
+              <i class="fas fa-address-book"></i> Yeni Adres Girişi
+            </a>
 
-          <h4 class="mb-3">Ödeme</h4>
+            <hr class="mb-4">
 
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="cc-isim">Kredi kartı üzerindeki isim</label>
-              <input type="text" class="form-control" id="cc-isim" name="cc-isim" placeholder="" required>
-                <small class="text-muted">Kredi kartı üzerindeki tam isim</small>
-                <div class="invalid-feedback">
-                  Kredi kartı üzerindeki isimi yazınız
-                </div>
+            <h4 class="mb-3">Ödeme</h4>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="cc-isim">Kredi kartı üzerindeki isim</label>
+                <input type="text" class="form-control" id="cc-isim" name="cc-isim" placeholder="" required>
+                  <small class="text-muted">Kredi kartı üzerindeki tam isim</small>
+                  <div class="invalid-feedback">
+                    Kredi kartı üzerindeki isimi yazınız
+                  </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="cc-no">Kredi kartı numarası</label>
+                <input type="text" class="form-control" id="cc-no" placeholder="" required>
+                  <div class="invalid-feedback">
+                    Kredi numarasnı yazınız
+                  </div>
+              </div>
             </div>
-            <div class="col-md-6 mb-3">
-              <label for="cc-no">Kredi kartı numarası</label>
-              <input type="text" class="form-control" id="cc-no" placeholder="" required>
-                <div class="invalid-feedback">
-                  Kredi numarasnı yazınız
-                </div>
+            <div class="row">
+              <div class="col-md-3 mb-3">
+                <label for="cc-gecelilik">Geçerlilik Süresi</label>
+                <input type="text" class="form-control" id="cc-gecerllik" name="cc-gecerllik" placeholder="AA/YY" required>
+                  <div class="invalid-feedback">
+                    Kredi kartı geçerlilik süresini yazınız
+                  </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="cc-cvv">CVV</label>
+                <input type="text" class="form-control" id="cc-cvv" name="cc-cvv" placeholder="" required>
+                  <div class="invalid-feedback">
+                    3 haneli güvenlik kodunu yazınız
+                  </div>
+              </div>
             </div>
+            <hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" type="submit" name="siparis">Siparişi Tamamla</button>
+          </form>
+          <?php
+        } else {
+          ?>
+          <div class="alert alert-danger" role="alert">
+            Adres bilgileriniz bulunamadı. Lütfen bir adres girişi yapınız.
           </div>
-          <div class="row">
-            <div class="col-md-3 mb-3">
-              <label for="cc-gecelilik">Geçerlilik Süresi</label>
-              <input type="text" class="form-control" id="cc-gecerllik" name="cc-gecerllik" placeholder="AA/YY" required>
-                <div class="invalid-feedback">
-                  Kredi kartı geçerlilik süresini yazınız
-                </div>
-            </div>
-            <div class="col-md-3 mb-3">
-              <label for="cc-cvv">CVV</label>
-              <input type="text" class="form-control" id="cc-cvv" name="cc-cvv" placeholder="" required>
-                <div class="invalid-feedback">
-                  3 haneli güvenlik kodunu yazınız
-                </div>
-            </div>
-          </div>
-          <hr class="mb-4">
-          <button class="btn btn-primary btn-lg btn-block" type="submit">Siparişi Tamamla</button>
-        </form>
+          <a href="index.php?sayfa=adres_islemleri">
+            <button class="btn btn-secondary btn-xs">
+              <i class="fas fa-search"></i> Yeni Adres Girişi
+            </button>
+          </a>
+          <?php
+        }
+        ?>
       </div>
     </div>
   </div>

@@ -31,17 +31,17 @@ if ($_SESSION["login"] != "tamam") {
   ?>
   <!-- Page Content-->
   <div class="container">
-      <!-- Page Heading/Breadcrumbs -->
-  <h1 class="mt-4 mb-3">E-Ticaret
-    <small><?php echo $baslik; ?></small>
-  </h1>
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">E-Ticaret
+      <small><?php echo $baslik; ?></small>
+    </h1>
 
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item">
-      <a href="index.php">Anasayfa</a>
-    </li>
-    <li class="breadcrumb-item active">Sepet İşlemleri</li>
-  </ol>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="index.php">Anasayfa</a>
+      </li>
+      <li class="breadcrumb-item active">Sepet İşlemleri</li>
+    </ol>
     <?php
     if ($mesaj != "") {
       ?>
