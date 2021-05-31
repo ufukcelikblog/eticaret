@@ -109,7 +109,7 @@ if ($_SESSION["login"] != "tamam") {
                 <label for="cc-no">Kredi kartı numarası</label>
                 <input type="text" class="form-control" id="cc-no" placeholder="" required>
                   <div class="invalid-feedback">
-                    Kredi numarasnı yazınız
+                    Kredi numarasını yazınız
                   </div>
               </div>
             </div>

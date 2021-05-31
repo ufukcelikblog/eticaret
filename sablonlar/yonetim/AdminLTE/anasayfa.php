@@ -23,11 +23,81 @@ if ($_SESSION["admin_login"] != "tamam") {
 
     <!-- Main content -->
     <section class="content">
-
+      <!-- Small boxes (Stat box) -->
+        <div class="row">
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <?php
+              $bekleyenSiparisler = $bag->query("SELECT COUNT(*) FROM siparis WHERE durum='Onay Bekliyor'")->fetchColumn();
+              ?>
+              <div class="inner">
+                <h3><?= $bekleyenSiparisler ?> Adet</h3>
+                <p>Onay Bekleyen Sipariş</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-bag"></i>
+              </div>
+              <a href="?sayfa=siparisler" class="small-box-footer">Detaylar <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <?php
+              $onaylananSiparisler = $bag->query("SELECT COUNT(*) FROM siparis WHERE durum='Onaylandı'")->fetchColumn();
+              ?>
+              <div class="inner">
+                <h3><?= $onaylananSiparisler ?> Adet</h3>
+                <p>Onaylanan Sipariş</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+              </div>
+              <a href="?sayfa=siparisler" class="small-box-footer">Detaylar <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <?php
+              $kargolananSiparisler = $bag->query("SELECT COUNT(*) FROM siparis WHERE durum='Kargoya Verildi'")->fetchColumn();
+              ?>
+              <div class="inner">
+                <h3><?= $kargolananSiparisler ?> Adet</h3>
+                <p>Kargoya Verilen Sipariş</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person-add"></i>
+              </div>
+              <a href="?sayfa=siparisler" class="small-box-footer">Detaylar <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <?php
+              $uyeSayisi = $bag->query("SELECT COUNT(*) FROM uye WHERE tur='normal'")->fetchColumn();
+              ?> 
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+              <div class="info-box-content">
+                <span class="info-box-text">Üye Sayısı</span>
+                <span class="info-box-number"><?= $uyeSayisi ?></span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+                   
+          </div>
+          <!-- ./col -->
+        </div>
+        <!-- /.row -->
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Son Siparişler</h3>
+          <h3 class="card-title">Anasayfa</h3>
 
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -39,43 +109,7 @@ if ($_SESSION["admin_login"] != "tamam") {
           </div>
         </div>
         <div class="card-body">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Tarih</th>
-                <th>Üye</th>
-                <th>Ürün</th>
-                <th>Adet</th>
-                <th>Fiyat</th>
-                <th>Toplam</th>
-                <th>Durum</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php
-              $kayitlar = $bag->query("SELECT * FROM siparis ORDER BY tarih DESC", PDO::FETCH_ASSOC);
-              foreach ($kayitlar as $kayit):
-                $urun_id = $kayit['urun_id'];
-                $uye_isim = $bag->query("SELECT CONCAT(ad, ' ', soyad) AS isim FROM uye WHERE id='{$kayit['uye_id']}'")->fetchColumn();
-                $urun_isim = $bag->query("SELECT isim FROM urun WHERE id='{$kayit['urun_id']}'")->fetchColumn();
-                $urun_adet = $kayit['adet'];
-                $urun_fiyat = $bag->query("SELECT fiyat FROM urun WHERE id='{$kayit['urun_id']}'")->fetchColumn();
-                $urun_toplam_fiyat = $urun_adet * $urun_fiyat;
-                ?>
-                <tr>
-                  <td><?= $kayit['tarih'] ?></td>
-                  <td><?= $uye_isim ?></td>
-                  <td><?= $urun_isim ?></td>
-                  <td><?= $urun_adet ?></td>
-                  <td><?= $urun_fiyat ?></td>
-                  <td><?= $urun_toplam_fiyat ?></td>
-                  <td><?= $kayit['durum'] ?></td>
-                </tr>
-                <?php
-              endforeach;
-              ?>
-            </tbody>
-          </table>
+          Anasayfa
         </div>
         <!-- /.card-body -->
         <div class="card-footer">

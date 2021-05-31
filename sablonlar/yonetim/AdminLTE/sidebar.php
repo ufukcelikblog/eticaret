@@ -61,6 +61,14 @@
               </p>
             </a>
           </li> 
+          <li class="nav-item">
+            <a href="index.php?sayfa=siparisler" class="nav-link">
+              <i class="nav-icon fas fa-list-alt"></i>
+              <p>
+                Siparişler
+              </p>
+            </a>
+          </li> 
           <li class="nav-header">ALT MENÜ</li>
           <li class="nav-item">
             <a href="https://adminlte.io/docs/3.1/" class="nav-link">

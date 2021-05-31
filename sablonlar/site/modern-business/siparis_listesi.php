@@ -37,6 +37,8 @@ if ($_SESSION["login"] != "tamam") {
                         <th>Fiyat</th>
                         <th>Toplam</th>
                         <th>Durum</th>
+                        <th>Kargo Firması</th>
+                        <th>Kargo Takip</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -56,6 +58,8 @@ if ($_SESSION["login"] != "tamam") {
                           <td><?= $urun_fiyat ?></td>
                           <td><?= $urun_toplam_fiyat ?></td>
                           <td><?= $kayit['durum'] ?></td>
+                          <td><?= $kayit['kargo_firma'] ?></td>
+                          <td><?= $kayit['kargo_takip'] ?></td>
                         </tr>
                       <?php endforeach; ?>
                     </tbody>

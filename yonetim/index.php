@@ -33,6 +33,10 @@ switch ($sayfa) {
     $baslik = "Ürün Resimleri";
     $icerik = 'urun_resimleri.php';
     break;  
+  case 'siparisler' :
+    $baslik = "Siparişler";
+    $icerik = 'siparisler.php';
+    break;  
   default :
     $baslik = "Anasayfa";
     $icerik = 'anasayfa.php';
