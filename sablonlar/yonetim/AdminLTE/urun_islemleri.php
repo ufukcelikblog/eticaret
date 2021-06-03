@@ -3,15 +3,8 @@ if ($_SESSION["admin_login"] != "tamam") {
   header("Location: index.php?sayfa=giris");
 } else {
   $mesaj = "";
-  $buttonText = "EKLE";
-  $islemBaslik = "Yeni Ürün";
   $islem = (isset($_GET['islem']) && $_GET['islem'] != '') ? $_GET['islem'] : '';
   $id = (isset($_GET['id']) && $_GET['id'] != '') ? $_GET['id'] : '';
-  $kategori_id = (isset($_GET['kategori_id']) && $_GET['kategori_id'] != '') ? $_GET['kategori_id'] : '';
-  $isim = (isset($_GET['isim']) && $_GET['isim'] != '') ? $_GET['isim'] : '';
-  $fiyat = (isset($_GET['fiyat']) && $_GET['fiyat'] != '') ? $_GET['fiyat'] : '';
-  $durum = (isset($_GET['durum']) && $_GET['durum'] != '') ? $_GET['durum'] : '';
-  $aciklama = (isset($_GET['aciklama']) && $_GET['aciklama'] != '') ? $_GET['aciklama'] : '';
 
   switch ($islem) {
     case "silme":
@@ -25,20 +18,33 @@ if ($_SESSION["admin_login"] != "tamam") {
       }
       break;
     case "ekleme":
+      $buttonText = "EKLE";
       $islemBaslik = "Yeni Ürün";
+      $islem = "ekleme";
       $sorgu = "SELECT COUNT(*) FROM urun WHERE isim='{$isim}' AND kategori_id='{$kategori_id}'";
       $adet = $bag->query($sorgu)->fetchColumn();
       if ($adet > 0) {
         $mesaj = "Bu ürün daha önce oluşturulmuş!!!";
       } else {
+        $kategori_id = $_POST["kategori_id"];
+        $isim = $_POST["isim"];
+        $fiyat = $_POST["fiyat"];
+        $durum = $_POST["durum"];
+        $aciklama = $_POST["aciklama"];
         $sorgu = $bag->prepare("INSERT INTO urun(kategori_id, isim, fiyat, durum, aciklama) VALUES(?,?,?,?,?)");
         $sorgu->execute(array($kategori_id, $isim, $fiyat, $durum, $aciklama));
         $mesaj = "Yeni bir ürün eklendi...";
       }
-      unset($id, $kategori_id, $isim, $fiyat, $durum, $aciklama);
       break;
     case "guncellemeBaslat":
-      if ($id != '' && $kategori_id != '' && $isim != '' && $fiyat != '' && $durum != '' && $aciklama != '') {
+      if ($id != '') {
+        $sorgu = "SELECT * FROM urun WHERE id='{$id}'";
+        $kayit = $bag->query($sorgu)->fetch();
+        $kategori_id = $kayit["kategori_id"];
+        $isim = $kayit["isim"];
+        $fiyat = $kayit["fiyat"];
+        $durum = $kayit["durum"];
+        $aciklama = $kayit["aciklama"];
         $islem = "guncellemeYap";
         $islemBaslik = "Ürün Güncelleme";
         $buttonText = "GÜNCELLE";
@@ -47,6 +53,12 @@ if ($_SESSION["admin_login"] != "tamam") {
       }
       break;
     case "guncellemeYap":
+      $id = $_POST["id"];
+      $kategori_id = $_POST["kategori_id"];
+      $isim = $_POST["isim"];
+      $fiyat = $_POST["fiyat"];
+      $durum = $_POST["durum"];
+      $aciklama = $_POST["aciklama"];
       $sorgu = $bag->prepare("UPDATE urun SET kategori_id=:k, isim=:i, fiyat=:f, durum=:d, aciklama=:a WHERE id='{$id}'");
       $sonuc = $sorgu->execute(array("k" => $kategori_id, "i" => $isim, "f" => $fiyat, "d" => $durum, "a" => $aciklama));
       if ($sonuc) {
@@ -54,9 +66,9 @@ if ($_SESSION["admin_login"] != "tamam") {
       } else {
         $mesaj = "Güncelleme işleminde bir hata oluştu";
       }
-      $islem = "ekleme";
+      $buttonText = "EKLE";
       $islemBaslik = "Yeni Ürün";
-      unset($id, $kategori_id, $isim, $fiyat, $durum, $aciklama);
+      $islem = "ekleme";
       break;
     default :
       $buttonText = "EKLE";
@@ -103,7 +115,10 @@ if ($_SESSION["admin_login"] != "tamam") {
               <h3 class="card-title"><?php echo $islemBaslik; ?></h3>
             </div>
             <!-- form start -->
-            <form class="form-horizontal" method="get" action="">
+            <?php 
+            $aksiyon = "?sayfa=urun_islemleri&islem=".$islem; 
+            ?>
+            <form class="form-horizontal" method="post" action="<?= $aksiyon ?>">
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-6">
@@ -173,7 +188,10 @@ if ($_SESSION["admin_login"] != "tamam") {
                   <div class="col-md-6">
                     <div class="form-group">
                       <label>Açıklama</label>
-                      <textarea name="aciklama" rows="7" cols="10" class="form-control" required><?php echo $islem == "guncellemeYap" ? $aciklama : "";?> 
+                      <textarea id="summernote" name="aciklama" rows="7" cols="10" class="form-control" required>
+                        <?php
+                        echo $islem == "guncellemeYap" ? $aciklama : "";
+                        ?> 
                       </textarea>
                     </div>
                     <!-- /.form-group -->
@@ -214,7 +232,7 @@ if ($_SESSION["admin_login"] != "tamam") {
                     ?>
                     <tr>
                       <td class="text-center">
-                        <a href="index.php?sayfa=urun_islemleri&islem=guncellemeBaslat&kategori_id=<?= $urun['kategori_id'] ?>&id=<?= $urun['id'] ?>&isim=<?= $urun['isim'] ?>&fiyat=<?= $urun['fiyat'] ?>&durum=<?= $urun['durum'] ?>&aciklama=<?= $urun['aciklama'] ?>">
+                        <a href="index.php?sayfa=urun_islemleri&islem=guncellemeBaslat&id=<?= $urun['id'] ?>">
                           <button class="btn btn-info btn-xs">
                             <i class="fas fa-pencil-alt"></i>
                             GÜNCELLEME

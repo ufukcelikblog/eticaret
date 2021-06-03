@@ -9,7 +9,10 @@
   <link rel="stylesheet" href="<?php echo YONETIM_SABLON; ?>/plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo YONETIM_SABLON; ?>/dist/css/adminlte.min.css">
-    <script>
+  <!-- summernote -->
+  <link rel="stylesheet" href="<?php echo YONETIM_SABLON; ?>/plugins/summernote/summernote-bs4.min.css">
+    
+  <script>
     function resimGoster(input){
         var dosya = $("input[type=file]").get(0).files[0];
  

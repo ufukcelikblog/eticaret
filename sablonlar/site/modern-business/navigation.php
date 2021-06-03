@@ -28,20 +28,24 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="navbarDropdownUyelik">
               <a class="dropdown-item" href="index.php?sayfa=uyelik_bilgileri">
-                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                <i class="fas fa-user-check fa-sm fa-fw mr-2 text-gray-400"></i>
                 Üyelik Bilgileri
               </a>
               <a class="dropdown-item" href="index.php?sayfa=uyelik_guncelle">
-                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                <i class="fas fa-user-edit fa-sm fa-fw mr-2 text-gray-400"></i>
                 Üyelik Güncelle
               </a>
               <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="index.php?sayfa=adres_islemleri">
+                <i class="fas fa-map fa-sm fa-fw mr-2 text-gray-400"></i>
+                Adres İşlemleri
+              </a>
               <a class="dropdown-item" href="index.php?sayfa=siparis_islemleri">
                 <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                 Sipariş İşlemleri
               </a>
               <a class="dropdown-item" href="index.php?sayfa=siparis_listesi">
-                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                <i class="fas fa-list-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                 Sipariş Listesi
               </a>
               <div class="dropdown-divider"></div>
