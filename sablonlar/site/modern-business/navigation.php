@@ -14,7 +14,7 @@
       </ul>
       <ul class="navbar-nav ml-auto">
         <?php
-        if ($_SESSION["login"] != "tamam") {
+        if (!isset($_SESSION["login"])) {
           ?>
           <li class="nav-item">
             <a class="nav-link" href="index.php?sayfa=uyelik">Üyelik</a>

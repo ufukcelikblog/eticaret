@@ -1,5 +1,5 @@
 <?php
-if ($_SESSION["login"] != "tamam") {
+if (!isset($_SESSION["login"])) {
   header("Location: index.php?sayfa=uyelik");
 } else {
   $mesaj = "";

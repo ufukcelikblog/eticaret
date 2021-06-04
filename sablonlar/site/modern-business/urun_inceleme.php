@@ -59,7 +59,7 @@
                       $aktifDurum = $no == 0 ? "active" : "";
                       ?>
                       <div class="carousel-item <?= $aktifDurum ?>">
-                        <img class="d-block img-fluid" src="data:image;base64,<?= base64_encode($kayit['veri']) ?>" width="1000"></img>
+                        <img class="d-block img-fluid" src="data:image;base64,<?= base64_encode($kayit['veri']) ?>"></img>
                       </div>
                       <?php
                       $no++;

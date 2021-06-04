@@ -5,7 +5,7 @@ require_once("veritabani.php");
 
 if (isset($_POST['urun_id'])) {
   $urun_id = $_POST['urun_id'];
-  if ($_SESSION["login"] == "tamam") {
+  if (isset($_SESSION["login"])) {
     $uye_id = $_SESSION["id"];
     $kayit = $bag->prepare("SELECT * FROM sepet WHERE uye_id=? AND urun_id=?");
     $kayit->execute(array($uye_id, $urun_id));

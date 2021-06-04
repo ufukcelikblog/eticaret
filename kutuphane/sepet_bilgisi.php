@@ -3,7 +3,7 @@
 session_start();
 require_once("veritabani.php");
 
-if ($_SESSION["login"] == "tamam") {
+if (isset($_SESSION["login"])) {
   $uye_id = $_SESSION["id"];
   $sorgu = "SELECT SUM(adet) FROM sepet WHERE uye_id='{$uye_id}'";
   $adet = $bag->query($sorgu)->fetchColumn();

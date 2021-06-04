@@ -1,5 +1,5 @@
 <?php
-if ($_SESSION["admin_login"] != "tamam") {
+if (!isset($_SESSION["admin_login"])) {
   header("Location: index.php?sayfa=giris");
 } else {
   ?>

@@ -1,5 +1,5 @@
 <?php
-if ($_SESSION["login"] != "tamam") {
+if (!isset($_SESSION["login"])) {
   header("Location: index.php?sayfa=uyelik");
 } else {
   $mesaj = "";
@@ -22,83 +22,83 @@ if ($_SESSION["login"] != "tamam") {
     }
   }
   ?>
-<!-- Page Content-->
-<div class="container">
-  <!-- Page Heading/Breadcrumbs -->
-  <h1 class="mt-4 mb-3">E-Ticaret Sitesi
-    <small><?php echo $baslik; ?></small>
-  </h1>
+  <!-- Page Content-->
+  <div class="container">
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">E-Ticaret Sitesi
+      <small><?php echo $baslik; ?></small>
+    </h1>
 
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item">
-      <a href="index.php">Anasayfa</a>
-    </li>
-    <li class="breadcrumb-item active">
-      Üyelik Güncelleme
-    </li>
-  </ol>
-  <?php
-  if ($mesaj != "") {
-    ?>
-    <div class="alert alert-primary text-center alert-dismissible fade show" role="alert">
-      <strong>MESAJ : </strong> <?php echo $mesaj; ?>
-    </div>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="index.php">Anasayfa</a>
+      </li>
+      <li class="breadcrumb-item active">
+        Üyelik Güncelleme
+      </li>
+    </ol>
     <?php
-    if ($mesaj == "Güncelleme başarılı") {
+    if ($mesaj != "") {
       ?>
-      <script>
-        setInterval(
-                function () {
-                  window.location.href = "index.php?sayfa=uyelik_bilgileri";
-                }, 2000
-                );
-      </script>
+      <div class="alert alert-primary text-center alert-dismissible fade show" role="alert">
+        <strong>MESAJ : </strong> <?php echo $mesaj; ?>
+      </div>
       <?php
+      if ($mesaj == "Güncelleme başarılı") {
+        ?>
+        <script>
+          setInterval(
+                  function () {
+                    window.location.href = "index.php?sayfa=uyelik_bilgileri";
+                  }, 2000
+                  );
+        </script>
+        <?php
+      }
     }
-  }
-  ?>
+    ?>
 
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          Üye #<?php echo $_SESSION["id"]; ?> Bilgi Güncelleme
-        </div>
-        <div class="card-body">
-          <div class="border border-lg rounded shadow-sm">
-            <form class="form-horizontal" action="" method="post">
-              <div class="p-4 border-bottom">
-                <div class="tab-content">     
-                  <div class="form-group">
-                    <label class="control-label col-sm-2" for="ad">Ad:</label>
-                    <div class="col-sm-12">
-                      <input class="form-control" type="text" name="ad" value="<?php echo $_SESSION["ad"]; ?>" required>	
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            Üye #<?php echo $_SESSION["id"]; ?> Bilgi Güncelleme
+          </div>
+          <div class="card-body">
+            <div class="border border-lg rounded shadow-sm">
+              <form class="form-horizontal" action="" method="post">
+                <div class="p-4 border-bottom">
+                  <div class="tab-content">     
+                    <div class="form-group">
+                      <label class="control-label col-sm-2" for="ad">Ad:</label>
+                      <div class="col-sm-12">
+                        <input class="form-control" type="text" name="ad" value="<?php echo $_SESSION["ad"]; ?>" required>	
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="control-label col-sm-2" for="ad">Soyad:</label>
-                    <div class="col-sm-12">
-                      <input class="form-control" type="text" name="soyad" value="<?php echo $_SESSION["soyad"]; ?>" required>	
+                    <div class="form-group">
+                      <label class="control-label col-sm-2" for="ad">Soyad:</label>
+                      <div class="col-sm-12">
+                        <input class="form-control" type="text" name="soyad" value="<?php echo $_SESSION["soyad"]; ?>" required>	
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="control-label col-sm-2" for="sifre">Şifre:</label>
-                    <div class="col-sm-12">
-                      <input class="form-control" type="password" name="sifre" value="<?php echo $_SESSION["sifre"]; ?>" required>	
+                    <div class="form-group">
+                      <label class="control-label col-sm-2" for="sifre">Şifre:</label>
+                      <div class="col-sm-12">
+                        <input class="form-control" type="password" name="sifre" value="<?php echo $_SESSION["sifre"]; ?>" required>	
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="form-actions bg-light p-4 small">
-                <button type="submit" class="btn btn-success btn-block" name="guncelle">GÜNCELLE</button>
-              </div>	
-            </form>
+                <div class="form-actions bg-light p-4 small">
+                  <button type="submit" class="btn btn-success btn-block" name="guncelle">GÜNCELLE</button>
+                </div>	
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
   <?php
 }
 ?>
