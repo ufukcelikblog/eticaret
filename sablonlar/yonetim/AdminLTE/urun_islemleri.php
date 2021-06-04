@@ -267,7 +267,7 @@ if (!isset($_SESSION["admin_login"])) {
                       <td><?= $urun["isim"] ?></td>
                       <td><?= $urun["fiyat"] ?></td>
                       <td><?= $urun["durum"] ?></td>
-                      <td><?= $urun["aciklama"] ?></td>
+                      <td><?= substr($urun["aciklama"], 0, 50) ?></td>
                     </tr>
                   <?php endforeach; ?>
                 </tbody>
